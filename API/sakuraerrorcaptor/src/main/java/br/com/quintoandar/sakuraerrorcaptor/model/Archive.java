@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 
+import br.com.quintoandar.sakuraerrorcaptor.model.json.ArchiveJson;
 import br.com.quintoandar.sakuraerrorcaptor.util.JSONBEntity;
 
 @Entity
