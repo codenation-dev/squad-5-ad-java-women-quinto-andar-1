@@ -7,8 +7,8 @@ import br.com.quintoandar.sakuraerrorcaptor.model.json.ArchiveJson;
 
 public interface ArchiveServiceInterface {
 	public Optional<Archive> findById(Long id);
-	public boolean sendArchiveToLog(Long id);
+	public boolean sendArchiveToLog(Long archiveId);
+	public boolean sendLogOccurrenceToArchive(Long logOccurrenceId);
 	public boolean save(ArchiveJson archiveJson);
-	public void deleteById(Long id);
-	public void deleteByLogOccurrenceId(Long id);
+	public boolean deleteById(Long id);
 }

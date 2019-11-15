@@ -13,6 +13,14 @@ public class LogOccurrenceJson implements Serializable{
 	@Convert(converter = LocalDateTimeConverter.class)
 	private LocalDateTime occurredIn;
 
+	public LogOccurrenceJson(Long id, LocalDateTime occurredIn) {
+		this.id = id;
+		this.occurredIn = occurredIn;
+	}
+	
+	public LogOccurrenceJson() {
+	}
+	
 	public Long getId() {
 		return id;
 	}

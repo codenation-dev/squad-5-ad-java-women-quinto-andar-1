@@ -4,10 +4,21 @@ import java.io.Serializable;
 import java.util.List;
 
 public class OccurrenceJson implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5899642383477729907L;
 	private Long id;
 	private String title;
 	private String detail;
 	private List<LogOccurrenceJson> logOccurrences;
+	
+	public OccurrenceJson(String title, String detail, List<LogOccurrenceJson> logOccurrences) {
+		this.title = title;
+		this.detail = detail;
+		this.logOccurrences = logOccurrences;
+	}
+	
 	public Long getId() {
 		return id;
 	}

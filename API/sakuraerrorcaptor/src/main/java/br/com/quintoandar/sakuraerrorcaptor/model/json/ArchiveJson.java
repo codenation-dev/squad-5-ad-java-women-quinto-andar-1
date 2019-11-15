@@ -3,9 +3,12 @@ package br.com.quintoandar.sakuraerrorcaptor.model.json;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.annotations.Type;
-
 public class ArchiveJson implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1582508694898401476L;
+
 	private String environment;
 	
 	private String level;
@@ -17,7 +20,7 @@ public class ArchiveJson implements Serializable{
 	private List<TrackedSystemJson> trackedSystem;
 		
 	private List<OccurrenceJson> occurrences;
-
+	
 	public String getEnvironment() {
 		return environment;
 	}
