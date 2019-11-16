@@ -44,8 +44,8 @@ public class SystemUserServiceImpl implements SystemUserService{
 	}
 
 	@Override
-	public Optional<SystemUser> findByToken(String id) {
-		return repository.findByToken(id);
+	public Optional<SystemUser> findByToken(String token) {
+		return repository.findByToken(token);
 	}
 
 	@Override
@@ -64,14 +64,6 @@ public class SystemUserServiceImpl implements SystemUserService{
 		return repository.save(systemUser);
 	}
 
-	
-
-
-	
-
-
-
-	
 
 
 

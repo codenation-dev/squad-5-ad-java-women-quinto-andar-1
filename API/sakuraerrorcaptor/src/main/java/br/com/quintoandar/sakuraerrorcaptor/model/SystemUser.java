@@ -24,7 +24,7 @@ public class SystemUser {
 	private String email;
 	
 	//ManyToOne
-	//private Tenant tenate;
+	//private Tenant tenant;
 	
 	private String token;
 	
@@ -36,8 +36,7 @@ public class SystemUser {
 	
 	private Boolean active;
 	
-	@CreatedDate
-    @NotEmpty(message = "This field is mandatory")
+	
 	private Date disabledIn;
 	
 
