@@ -1,7 +1,7 @@
 package br.com.quintoandar.sakuraerrorcaptor.model;
 
 public enum Environment {
-    PROD,
+    PRODUCTION,
     HOMOLOG,
     DEV
 }
