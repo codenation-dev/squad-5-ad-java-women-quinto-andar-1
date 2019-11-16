@@ -1,5 +1,8 @@
 package br.com.quintoandar.sakuraerrorcaptor.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+
 import java.util.List;
 
 import javax.persistence.Entity;

@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-public class Occurrence {
+public class Ocurrence {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +18,8 @@ public class Occurrence {
 
     @NotEmpty(message = "This field is mandatory")
     private String detail;
-   
-    public Occurrence(Long id, String title, String detail) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.detail = detail;
-	}
 
-	public Long getId() {
+    public Long getId() {
         return id;
     }
 
