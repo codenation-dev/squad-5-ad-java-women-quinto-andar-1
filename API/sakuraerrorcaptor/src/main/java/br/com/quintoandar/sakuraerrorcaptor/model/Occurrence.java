@@ -19,7 +19,15 @@ public class Occurrence {
     @NotEmpty(message = "This field is mandatory")
     private String detail;
 
-    public Long getId() {
+    
+    public Occurrence(Long id, String title, String detail) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.detail = detail;
+	}
+
+	public Long getId() {
         return id;
     }
 
