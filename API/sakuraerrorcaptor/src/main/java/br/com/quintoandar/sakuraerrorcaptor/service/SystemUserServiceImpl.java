@@ -3,7 +3,6 @@ package br.com.quintoandar.sakuraerrorcaptor.service;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,9 +44,14 @@ public class SystemUserServiceImpl implements SystemUserService{
 	}
 
 	@Override
-	public List<SystemUser> findByToken(Long id) {
+	public Optional<SystemUser> findByToken(Long id) {
 		return repository.findByToken(id);
 	}
+
+	
+
+
+	
 
 
 

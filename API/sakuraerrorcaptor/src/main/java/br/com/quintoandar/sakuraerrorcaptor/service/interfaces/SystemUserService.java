@@ -11,6 +11,6 @@ public interface SystemUserService {
     public SystemUser save (SystemUser systemUser);
     public List<SystemUser>findByTenatId (Long id);
     public SystemUser findByName (String name);
-    public List<SystemUser>findByToken (Long id);
+    public Optional<SystemUser>findByToken (Long id);
 
 }
