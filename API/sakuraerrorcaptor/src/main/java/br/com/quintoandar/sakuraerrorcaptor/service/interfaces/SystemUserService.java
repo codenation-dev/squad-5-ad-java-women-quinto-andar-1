@@ -6,9 +6,6 @@ import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 
 public interface SystemUserService {
 
-	public Optional<SystemUser> buscar(Long id);
-	public Iterable<SystemUser> pesquisar();
-	public SystemUser toSave(SystemUser systemUser);
-	public void delete(Long id);
-	public SystemUser alterar(SystemUser systemUser);
+	public Optional<SystemUser> findById(Long id);	
+    public SystemUser save (SystemUser systemUser);
 }

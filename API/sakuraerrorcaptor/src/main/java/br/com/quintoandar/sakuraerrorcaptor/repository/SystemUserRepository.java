@@ -9,7 +9,7 @@ import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 @Repository
 public interface SystemUserRepository extends JpaRepository <SystemUser, Long>{
 	
-	public SystemUser findByNome(String nome);
+	public SystemUser findByNome(String name);
 
 
 }

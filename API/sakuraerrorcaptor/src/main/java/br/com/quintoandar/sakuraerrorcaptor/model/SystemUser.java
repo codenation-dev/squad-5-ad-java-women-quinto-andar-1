@@ -104,9 +104,7 @@ public class SystemUser {
 	public void setDisabledln(Date disabledln) {
 		this.disabledIn = disabledln;
 	}
-	
-	
-	
+
 	
 	
 	
