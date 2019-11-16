@@ -2,43 +2,52 @@ package br.com.quintoandar.sakuraerrorcaptor.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
+import br.com.quintoandar.sakuraerrorcaptor.repository.SystemUserRepository;
+import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.SystemUserService;;
 
 @Service
 public class SystemUserServiceImpl implements SystemUserService{
 
-	
-	
+	private final SystemUserRepository systemUser;
+
+	@Autowired
+	SystemUserServiceImpl(SystemUserRepository repository) {
+		this.systemUser = repository;
+	}
+
 	@Override
 	public Optional<SystemUser> buscar(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return systemUser.findById(id);
 	}
 
 	@Override
 	public Iterable<SystemUser> pesquisar() {
-		// TODO Auto-generated method stub
-		return null;
+		return systemUser.findAll();
 	}
 
 	@Override
-	public SystemUser salvar(SystemUser systemUser) {
-		// TODO Auto-generated method stub
-		return null;
+	public SystemUser toSave(SystemUser systemUser) {
+		return this.systemUser.save(systemUser);
 	}
 
 	@Override
-	public void deletar(Long id) {
-		// TODO Auto-generated method stub
+	public void delete(Long id) {
+		systemUser.deleteById(id);
 		
 	}
 
 	@Override
 	public SystemUser alterar(SystemUser systemUser) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.systemUser.save(systemUser);
 	}
+	
+
+	
+
+
 
 }

@@ -1,4 +1,4 @@
-package br.com.quintoandar.sakuraerrorcaptor.service;
+package br.com.quintoandar.sakuraerrorcaptor.service.interfaces;
 
 import java.util.Optional;
 
@@ -8,7 +8,7 @@ public interface SystemUserService {
 
 	public Optional<SystemUser> buscar(Long id);
 	public Iterable<SystemUser> pesquisar();
-	public SystemUser salvar(SystemUser systemUser);
-	public void deletar(Long id);
+	public SystemUser toSave(SystemUser systemUser);
+	public void delete(Long id);
 	public SystemUser alterar(SystemUser systemUser);
 }
