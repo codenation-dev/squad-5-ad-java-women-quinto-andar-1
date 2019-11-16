@@ -23,6 +23,7 @@ public class SystemUser {
 	@Email
 	private String email;
 	
+	//ManyToOne
 	//private Tenant tenate;
 	
 	private String token;
