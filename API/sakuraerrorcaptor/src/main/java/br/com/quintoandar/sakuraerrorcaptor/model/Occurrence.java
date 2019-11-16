@@ -18,8 +18,7 @@ public class Occurrence {
 
     @NotEmpty(message = "This field is mandatory")
     private String detail;
-
-    
+   
     public Occurrence(Long id, String title, String detail) {
 		super();
 		this.id = id;

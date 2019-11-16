@@ -1,7 +1,9 @@
 package br.com.quintoandar.sakuraerrorcaptor.service;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.Occurrence;
+
 import br.com.quintoandar.sakuraerrorcaptor.model.json.OccurrenceJson;
+
 import br.com.quintoandar.sakuraerrorcaptor.repository.OccurrenceRepository;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.OccurrenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +44,5 @@ public class OccurrenceServiceImpl implements OccurrenceService {
         }
         return repository.findById(occurrenceJson.getId()).get();
 	}
+
 }
