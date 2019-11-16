@@ -1,8 +1,8 @@
 package br.com.quintoandar.sakuraerrorcaptor.service;
 
+import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +29,24 @@ public class SystemUserServiceImpl implements SystemUserService{
 
 	@Override
 	public SystemUser save(SystemUser systemUser) {
-		// TODO Auto-generated method stub
-		return null;
+        return repository.save(systemUser);
+
+	}
+
+	@Override
+	public List<SystemUser> findByTenatId(Long id) {
+		return repository.findByTenatId(id);
+	}
+
+
+	@Override
+	public SystemUser findByName(String name) {
+		return repository.findByNome(name);
+	}
+
+	@Override
+	public List<SystemUser> findByToken(Long id) {
+		return repository.findByToken(id);
 	}
 
 
