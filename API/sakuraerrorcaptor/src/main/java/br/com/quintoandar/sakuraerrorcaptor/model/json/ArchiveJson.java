@@ -3,15 +3,23 @@ package br.com.quintoandar.sakuraerrorcaptor.model.json;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
+import br.com.quintoandar.sakuraerrorcaptor.model.Level;
+
 public class ArchiveJson implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1582508694898401476L;
 
-	private String environment;
+	@Enumerated(EnumType.STRING)
+	private Environment environment;
 	
-	private String level;
+	@Enumerated(EnumType.STRING)
+	private Level level;
 	
 	private Long tenantId;
 	
@@ -20,20 +28,20 @@ public class ArchiveJson implements Serializable{
 	private List<TrackedSystemJson> trackedSystem;
 		
 	private List<OccurrenceJson> occurrences;
-	
-	public String getEnvironment() {
+
+	public Environment getEnvironment() {
 		return environment;
 	}
 
-	public void setEnvironment(String environment) {
+	public void setEnvironment(Environment environment) {
 		this.environment = environment;
 	}
 
-	public String getLevel() {
+	public Level getLevel() {
 		return level;
 	}
 
-	public void setLevel(String level) {
+	public void setLevel(Level level) {
 		this.level = level;
 	}
 
@@ -53,6 +61,14 @@ public class ArchiveJson implements Serializable{
 		this.tenant = tenant;
 	}
 
+	public List<TrackedSystemJson> getTrackedSystem() {
+		return trackedSystem;
+	}
+
+	public void setTrackedSystem(List<TrackedSystemJson> trackedSystem) {
+		this.trackedSystem = trackedSystem;
+	}
+
 	public List<OccurrenceJson> getOccurrences() {
 		return occurrences;
 	}
@@ -60,13 +76,4 @@ public class ArchiveJson implements Serializable{
 	public void setOccurrences(List<OccurrenceJson> occurrences) {
 		this.occurrences = occurrences;
 	}
-
-	public List<TrackedSystemJson> getTrackedSystem() {
-		return trackedSystem;
-	}
-
-	public void setTrackedSystem(List<TrackedSystemJson> trackedSystem) {
-		this.trackedSystem = trackedSystem;
-	}	
-	
 }

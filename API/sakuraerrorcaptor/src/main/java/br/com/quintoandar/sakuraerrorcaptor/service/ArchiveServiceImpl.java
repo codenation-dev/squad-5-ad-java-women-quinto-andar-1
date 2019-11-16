@@ -10,15 +10,17 @@ import org.springframework.stereotype.Service;
 
 import br.com.quintoandar.sakuraerrorcaptor.exception.ArchiveNotFoundException;
 import br.com.quintoandar.sakuraerrorcaptor.model.Archive;
+import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
+import br.com.quintoandar.sakuraerrorcaptor.model.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.ArchiveJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.LogOccurrenceJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.OccurrenceJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.TrackedSystemJson;
 import br.com.quintoandar.sakuraerrorcaptor.repository.ArchiveRepository;
-import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.ArchiveServiceInterface;
+import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.ArchiveService;
 
 @Service
-public class ArchiveService implements ArchiveServiceInterface{
+public class ArchiveServiceImpl implements ArchiveService{
 
     @Autowired
     ArchiveRepository archiveRepository;
@@ -36,6 +38,11 @@ public class ArchiveService implements ArchiveServiceInterface{
     public Optional<Archive> findById(Long id) {
         return archiveRepository.findById(id);
     }
+    
+    @Override
+	public List<Archive> findAll() {		
+		return archiveRepository.findAll();
+	}
     
     @Override
     public boolean deleteById(Long id) {
@@ -133,7 +140,7 @@ public class ArchiveService implements ArchiveServiceInterface{
         }
     }    
     
-    private Log saveLogFromArchive(String environment, String level, Long tenantId, TrackedSystemJson trackedSystemJson) {
+    private Log saveLogFromArchive(Environment environment, Level level, Long tenantId, TrackedSystemJson trackedSystemJson) {
         if (!logRepository.findByEnvironmentAndLevelAndTenantIdAndTrackedSystemId(environment,level,tenantId,trackedSystemJson.getId()).isPresent()) {
             Log log = new Log(environment,level,tenantId,trackedSystemJson.getId());
             logRepository.save(log);
@@ -147,5 +154,5 @@ public class ArchiveService implements ArchiveServiceInterface{
             occurrenceRepository.save(occurrence);
         }
         return occurrenceRepository.findByTitle(o.getTitle()).get();
-    }
+    }	
 }
