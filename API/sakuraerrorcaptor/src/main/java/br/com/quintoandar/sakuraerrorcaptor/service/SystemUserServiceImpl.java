@@ -33,19 +33,35 @@ public class SystemUserServiceImpl implements SystemUserService{
 	}
 
 	@Override
-	public List<SystemUser> findByTenatId(Long id) {
-		return repository.findByTenatId(id);
+	public List<SystemUser> findByTenantId(Long id) {
+		return repository.findByTenantId(id);
 	}
 
 
 	@Override
 	public SystemUser findByName(String name) {
-		return repository.findByNome(name);
+		return repository.findByName(name);
 	}
 
 	@Override
-	public Optional<SystemUser> findByToken(Long id) {
+	public Optional<SystemUser> findByToken(String id) {
 		return repository.findByToken(id);
+	}
+
+	@Override
+	public Iterable<SystemUser> pesquisar() {
+		return repository.findAll();
+	}
+
+	@Override
+	public void deletar(Long id) {
+		repository.deleteById(id);
+		
+	}
+
+	@Override
+	public SystemUser alterar(SystemUser systemUser) {
+		return repository.save(systemUser);
 	}
 
 	

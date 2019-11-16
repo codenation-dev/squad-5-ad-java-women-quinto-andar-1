@@ -9,8 +9,13 @@ public interface SystemUserService {
 
 	public Optional<SystemUser> findById(Long id);	
     public SystemUser save (SystemUser systemUser);
-    public List<SystemUser>findByTenatId (Long id);
+	public Iterable<SystemUser> pesquisar();
+	public void deletar(Long id);
+	public SystemUser alterar(SystemUser systemUser);
+
+
+    public List<SystemUser>findByTenantId (Long id);
     public SystemUser findByName (String name);
-    public Optional<SystemUser>findByToken (Long id);
+    public Optional<SystemUser>findByToken (String id);
 
 }

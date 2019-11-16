@@ -13,9 +13,9 @@ import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 public interface SystemUserRepository extends JpaRepository <SystemUser, Long>{
 	
 	public Optional<SystemUser> findById(Long id);	
-	public SystemUser findByNome(String name);
-    public Optional<SystemUser>findByToken (Long id);
-    public List<SystemUser>findByTenatId (Long id);
+	public SystemUser findByName(String name);
+    public Optional<SystemUser>findByToken (String id);
+    public List<SystemUser>findByTenantId (Long id);
 
 
 }
