@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
+import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 import br.com.quintoandar.sakuraerrorcaptor.repository.LogRepository;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogService;
 
