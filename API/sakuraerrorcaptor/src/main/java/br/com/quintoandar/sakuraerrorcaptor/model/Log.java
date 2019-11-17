@@ -25,20 +25,16 @@ public class Log {
 	@Enumerated(EnumType.STRING)
 	private Level level;
 
-	private Long tenantId;
-
 	private TrackedSystem trackedSystem;
 	
-	public Log() {
-		
-	}
+	public Log() {}
 
 	public Log(Long id, Environment environment, Level level, Long tenantId, TrackedSystem trackedSystem) {
 		super();
 		this.id = id;
 		this.environment = environment;
 		this.level = level;
-		this.tenantId = tenantId;
+		//this.tenantId = tenantId;
 		this.trackedSystem = trackedSystem;
 	}
 
@@ -66,13 +62,13 @@ public class Log {
 		this.level = level;
 	}
 
-	public Long getTenantId() {
-		return tenantId;
-	}
+	//public Long getTenantId() {
+		//return tenantId;
+	//}
 
-	public void setTenantId(Long tenantId) {
-		this.tenantId = tenantId;
-	}
+	//public void setTenantId(Long tenantId) {
+		//this.tenantId = tenantId;
+	//}
 
 	public TrackedSystem getTrackedSystem() {
 		return trackedSystem;

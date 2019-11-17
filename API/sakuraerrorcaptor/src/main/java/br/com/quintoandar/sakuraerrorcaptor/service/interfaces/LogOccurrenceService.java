@@ -21,5 +21,6 @@ public interface LogOccurrenceService {
 	public List<LogOccurrence> findByEnvironment(Environment environment);
 	public List<LogOccurrence> findByEnvironmentAndLevel(Environment environment, Level level);
 	public List<LogOccurrence> findByLogIdAndOccurrenceId(Long logId, Long occurrenceId);
-	
+
+    List<LogOccurrence> findByDescription(String description);
 }

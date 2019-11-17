@@ -69,6 +69,12 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	}
 
 	@Override
+	public List<LogOccurrence> findByDescription(String description) {
+		//return logOccurrenceRepository.findByDescription(description);
+		return null;
+	}
+
+	@Override
 	public LogOccurrence saveFromArchive(Long id, Log log, Occurrence occurrence, LocalDateTime occurredIn) {
 		if (!logOccurrenceRepository.findById(id).isPresent()) {
 			LogOccurrence logOccurrence = new LogOccurrence();

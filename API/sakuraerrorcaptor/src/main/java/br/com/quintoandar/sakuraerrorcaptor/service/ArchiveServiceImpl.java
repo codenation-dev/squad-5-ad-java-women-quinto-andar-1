@@ -103,7 +103,6 @@ public class ArchiveServiceImpl implements ArchiveService{
 		ArchiveJson archiveJson = new ArchiveJson();
 		archiveJson.setEnvironment(log.getEnvironment());
 		archiveJson.setLevel(log.getLevel());
-		archiveJson.setTenantId(log.getTenantId());
 		archiveJson.setTenant("");
 		
 		TrackedSystem trackedSystem = log.getTrackedSystem();
