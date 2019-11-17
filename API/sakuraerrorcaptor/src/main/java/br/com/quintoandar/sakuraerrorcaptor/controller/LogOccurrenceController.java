@@ -21,12 +21,12 @@ import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogOccurrenceServ
 public class LogOccurrenceController {
 	
 	@Autowired
-	private LogOccurrenceService logOccurrences;
+	private LogOccurrenceService logOccurrenceService;
 	private LogOccurrenceMapper mapper = new LogOccurrenceMapper();
 	
 	@GetMapping
 	public List<LogDTO> findAll(){
-		List<LogOccurrence> logs =  logOccurrences.findAll();
+		List<LogOccurrence> logs =  logOccurrenceService.findAll();
 		List<LogDTO> logsDTO = mapper.map(logs);
 
 		return logsDTO;
@@ -34,22 +34,23 @@ public class LogOccurrenceController {
 	
 	@GetMapping("/{id}")
 	public Optional<LogOccurrence> findById(@PathVariable Long id){
-		return logOccurrences.findById(id);
+		return logOccurrenceService.findById(id);
 	}
 
-	@GetMapping
-	public List<LogDTO> findByFilter(@RequestParam(name="level", required = false) Level level,
+	@GetMapping("/findByFilter")
+	public List<LogDTO> findByFilter(@RequestParam(name="level", required = false) String level,
 									@RequestParam(name="description", required = false) String title,
-									@RequestParam(name="origin", required = false) String location){
-		List<LogOccurrence> logs =  logOccurrences.findByLevel(level);
+                                     @RequestParam(name="origin", required = false) String location,
+                                     @RequestParam(name="orderBy", required = false) String orderBy){
+		List<LogOccurrence> logs =  logOccurrenceService.findByFilter(level, title, location, orderBy);
 		List<LogDTO> logsDTO = mapper.map(logs);
 
 		return logsDTO;
 	}
 
-	@GetMapping("/{environment}")
+	@GetMapping("/environment/{environment}")
 	public List<LogDTO> findByEnvironment(@PathVariable Environment environment){
-		List<LogOccurrence> logs =  logOccurrences.findByEnvironment(environment);
+		List<LogOccurrence> logs =  logOccurrenceService.findByEnvironment(environment);
 		List<LogDTO> logsDTO = mapper.map(logs);
 
 		return logsDTO;
@@ -57,7 +58,7 @@ public class LogOccurrenceController {
 	
 	@GetMapping("/{environment}/{level}")
 	public List<LogDTO> findByEnvironmentAndLevel(@PathVariable Environment environment, @PathVariable Level level){
-		List<LogOccurrence> logs =  logOccurrences.findByEnvironmentAndLevel(environment, level);
+		List<LogOccurrence> logs =  logOccurrenceService.findByEnvironmentAndLevel(environment, level);
 		List<LogDTO> logsDTO = mapper.map(logs);
 
 		return logsDTO;
@@ -65,12 +66,12 @@ public class LogOccurrenceController {
 	
 	@PostMapping
 	public LogOccurrence save(@Valid @RequestBody LogOccurrence logOccurrence) {
-		return logOccurrences.save(logOccurrence);
+		return logOccurrenceService.save(logOccurrence);
 	}
 	
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		logOccurrences.delete(id);
+        logOccurrenceService.delete(id);
 	}
 	
 }
