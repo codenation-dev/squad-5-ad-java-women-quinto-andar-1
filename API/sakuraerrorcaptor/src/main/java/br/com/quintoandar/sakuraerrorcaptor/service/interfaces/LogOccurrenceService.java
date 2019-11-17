@@ -17,9 +17,8 @@ public interface LogOccurrenceService {
 	public void delete (Long id);
 	public LogOccurrence saveFromArchive(Long id,Log log, Occurrence occurrence, LocalDateTime occurredIn);
 	public LogOccurrence save (LogOccurrence logoccurrence);
-	public List<LogOccurrence> findByEnvironment(Environment environment);
-	public List<LogOccurrence> findByEnvironmentAndLevel(Environment environment, Level level);
 	public List<LogOccurrence> findByLogIdAndOccurrenceId(Long logId, Long occurrenceId);
 
-	List<LogOccurrence> findByFilter(String level, String title, String location, String orderBy);
+	List<LogOccurrence> findByFilter(String environment, String level, String title, String location, String orderBy);
+	List<LogOccurrence> findByEnvironment(Environment environment);
 }

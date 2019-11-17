@@ -38,32 +38,25 @@ public class LogOccurrenceController {
 	}
 
 	@GetMapping("/findByFilter")
-	public List<LogDTO> findByFilter(@RequestParam(name="level", required = false) String level,
-									@RequestParam(name="description", required = false) String title,
+	public List<LogDTO> findByFilter(@RequestParam(name="environment", required = false) String environment,
+	                                 @RequestParam(name="level", required = false) String level,
+									 @RequestParam(name="description", required = false) String title,
                                      @RequestParam(name="origin", required = false) String location,
                                      @RequestParam(name="orderBy", required = false) String orderBy){
-		List<LogOccurrence> logs =  logOccurrenceService.findByFilter(level, title, location, orderBy);
+		List<LogOccurrence> logs =  logOccurrenceService.findByFilter(environment, level, title, location, orderBy);
 		List<LogDTO> logsDTO = mapper.map(logs);
 
 		return logsDTO;
 	}
 
-	@GetMapping("/environment/{environment}")
-	public List<LogDTO> findByEnvironment(@PathVariable Environment environment){
-		List<LogOccurrence> logs =  logOccurrenceService.findByEnvironment(environment);
+	@GetMapping("findByEnvironment/{environment}")
+	public List<LogDTO> findByEnvironment(@PathVariable String environment){
+		List<LogOccurrence> logs =  logOccurrenceService.findByEnvironment(Environment.valueOf(environment));
 		List<LogDTO> logsDTO = mapper.map(logs);
 
 		return logsDTO;
 	}
-	
-	@GetMapping("/{environment}/{level}")
-	public List<LogDTO> findByEnvironmentAndLevel(@PathVariable Environment environment, @PathVariable Level level){
-		List<LogOccurrence> logs =  logOccurrenceService.findByEnvironmentAndLevel(environment, level);
-		List<LogDTO> logsDTO = mapper.map(logs);
 
-		return logsDTO;
-	}
-	
 	@PostMapping
 	public LogOccurrence save(@Valid @RequestBody LogOccurrence logOccurrence) {
 		return logOccurrenceService.save(logOccurrence);

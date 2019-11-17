@@ -32,7 +32,7 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	}
 
 	@Override
-	public List<LogOccurrence> findByFilter(String level, String title, String location, String orderBy) {
+	public List<LogOccurrence> findByFilter(String environment, String level, String title, String location, String orderBy) {
 		if(!level.isEmpty()){
 			return this.findByLevel(Level.valueOf(level));
 		}
@@ -61,6 +61,16 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	}
 
 	@Override
+	public List<LogOccurrence> findByEnvironment(Environment environment) {
+		return logOccurrenceRepository.findByLogEnvironment(environment);
+	}
+
+	@Override
+	public List<LogOccurrence> findByLogIdAndOccurrenceId(Long logId, Long occurrenceId) {
+		return logOccurrenceRepository.findByLogIdAndOccurrenceId(logId, occurrenceId);
+	}
+
+	@Override
 	public void delete(Long id) {
 		logOccurrenceRepository.deleteById(id);
 	}
@@ -68,21 +78,6 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	@Override
 	public LogOccurrence save(LogOccurrence logoccurrence) {
 		return logOccurrenceRepository.save(logoccurrence);
-	}
-
-	@Override
-	public List<LogOccurrence> findByEnvironment(Environment environment) {
-		return logOccurrenceRepository.findByLogEnvironment(environment);
-	}
-
-	@Override
-	public List<LogOccurrence> findByEnvironmentAndLevel(Environment environment,Level level) {
-		return logOccurrenceRepository.findByLogEnvironmentAndLogLevel(environment, level);
-	}
-
-	@Override
-	public List<LogOccurrence> findByLogIdAndOccurrenceId(Long logId, Long occurrenceId) {
-		return logOccurrenceRepository.findByLogIdAndOccurrenceId(logId, occurrenceId);
 	}
 
 	@Override
