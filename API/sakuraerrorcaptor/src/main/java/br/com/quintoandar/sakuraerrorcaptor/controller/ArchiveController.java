@@ -13,7 +13,7 @@ import br.com.quintoandar.sakuraerrorcaptor.model.Archive;
 import br.com.quintoandar.sakuraerrorcaptor.service.ArchiveServiceImpl;
 
 @RestController
-@RequestMapping("/archive")
+@RequestMapping("/archives")
 public class ArchiveController {
 
 	@Autowired

@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.Archive;
+import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.ArchiveJson;
 
 @ActiveProfiles("dev")
@@ -22,7 +23,7 @@ public class ArchiveRepositoryTest {
 		ArchiveJson json = new ArchiveJson();
 		json.setTenant("1");
 		json.setTenantId(1L);
-		json.setEnvironment("Dev");
+		json.setEnvironment(Environment.DEV);
 		
 		Archive archive = new Archive(1L,json);
 		

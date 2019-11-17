@@ -1,5 +1,6 @@
 package br.com.quintoandar.sakuraerrorcaptor.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.Level;
+import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
+import br.com.quintoandar.sakuraerrorcaptor.model.Occurrence;
 import br.com.quintoandar.sakuraerrorcaptor.repository.LogOccurrenceRepository;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogOccurrenceService;
 
@@ -58,6 +61,25 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	public List<LogOccurrence> findByEnvironmentAndLevel(Environment environment,Level level) {
 		// TODO Auto-generated method stub
 		return logOccurrenceRepository.findByLogEnvironmentAndLogLevel(environment, level);
+	}
+
+	@Override
+	public List<LogOccurrence> findByLogIdAndOccurrenceId(Long logId, Long occurrenceId) {
+		return logOccurrenceRepository.findByLogIdAndOccurrenceId(logId, occurrenceId);
+	}
+
+	@Override
+	public LogOccurrence saveFromArchive(Long id, Log log, Occurrence occurrence, LocalDateTime occurredIn) {
+		if (!logOccurrenceRepository.findById(id).isPresent()) {
+			LogOccurrence logOccurrence = new LogOccurrence();
+			logOccurrence.setId(id);
+			logOccurrence.setLog(log);
+			logOccurrence.setOccurrence(occurrence);
+			logOccurrence.setOccurredIn(occurredIn);
+			
+			return logOccurrenceRepository.save(logOccurrence);
+		}
+		return logOccurrenceRepository.findById(id).get();
 	}
 	
 	

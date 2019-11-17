@@ -6,6 +6,7 @@ import java.util.Optional;
 import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
+import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 
 public interface LogService {
 

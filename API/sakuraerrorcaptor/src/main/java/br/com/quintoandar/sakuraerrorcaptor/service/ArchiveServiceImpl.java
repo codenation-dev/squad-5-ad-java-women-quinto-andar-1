@@ -6,18 +6,29 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.quintoandar.sakuraerrorcaptor.exception.ArchiveNotFoundException;
 import br.com.quintoandar.sakuraerrorcaptor.model.Archive;
 import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.Level;
+import br.com.quintoandar.sakuraerrorcaptor.model.Log;
+import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
+import br.com.quintoandar.sakuraerrorcaptor.model.Occurrence;
+import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.ArchiveJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.LogOccurrenceJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.OccurrenceJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.TrackedSystemJson;
 import br.com.quintoandar.sakuraerrorcaptor.repository.ArchiveRepository;
+import br.com.quintoandar.sakuraerrorcaptor.repository.LogRepository;
+import br.com.quintoandar.sakuraerrorcaptor.repository.OccurrenceRepository;
+import br.com.quintoandar.sakuraerrorcaptor.repository.TrackedSystemRepository;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.ArchiveService;
+import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogOccurrenceService;
+import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogService;
+import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.OccurrenceService;
 
 @Service
 public class ArchiveServiceImpl implements ArchiveService{
@@ -26,13 +37,16 @@ public class ArchiveServiceImpl implements ArchiveService{
     ArchiveRepository archiveRepository;
     
     @Autowired
-    OccurrenceRepository occurrenceRepository;
+    OccurrenceService occurrenceService;
     
     @Autowired
-    LogRepository logRepository;
+    LogService logService;
     
     @Autowired
-    LogOccurrenceRepository logOccurrenceRepository;
+    LogOccurrenceService logOccurrenceService;
+    
+    @Autowired
+    TrackedSystemRepository trackedSystemRepository;
     
     @Override
     public Optional<Archive> findById(Long id) {
@@ -69,15 +83,15 @@ public class ArchiveServiceImpl implements ArchiveService{
     }
     
     @Override
-	public boolean sendLogOccurrenceToArchive(Long logOccurrenceId) {
-		LogOccurrence logOccurrence = logOccurrenceRepository.findById(logOccurrenceId);
+	public boolean sendLogOccurrenceToArchive(Long logOccurrenceId) throws NotFoundException {
+		LogOccurrence logOccurrence = logOccurrenceService.findById(logOccurrenceId).orElseThrow(()-> new NotFoundException());
 		Log log = logOccurrence.getLog();
 		Occurrence occurrence = logOccurrence.getOccurrence();
 		ArchiveJson archiveJson = setArchiveJson(log, occurrence);
 		
 		try {
-			archiveRepository.save(archiveJson);
-			logOccurrenceRepository.deleteById(logOccurrenceId);	
+			save(archiveJson);
+			logOccurrenceService.delete(logOccurrenceId);	
 			return true;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -87,7 +101,7 @@ public class ArchiveServiceImpl implements ArchiveService{
 	
 	private ArchiveJson setArchiveJson(Log log, Occurrence occurrence) {
 		ArchiveJson archiveJson = new ArchiveJson();
-		archiveJson.setEnvironment(log.getEnvironent());
+		archiveJson.setEnvironment(log.getEnvironment());
 		archiveJson.setLevel(log.getLevel());
 		archiveJson.setTenantId(log.getTenantId());
 		archiveJson.setTenant("");
@@ -103,14 +117,15 @@ public class ArchiveServiceImpl implements ArchiveService{
 		archiveJson.setTrackedSystem(trackedSystemJson);
 		
 		List<LogOccurrenceJson> logOccurrencesJson = new ArrayList<LogOccurrenceJson>();
-		List<LogOccurrence> logOccurrences = logOccurrenceRepository.findByLogIdAndOccurrenceId(logId,occurrenceId);
-		for (LogOccurence l: logOccurrences) {
-			logOccurrencesJson.add(new LogOccurrenceJson(l.getOccurredIn()));
+		List<LogOccurrence> logOccurrences = logOccurrenceService.findByLogIdAndOccurrenceId(log.getId(),occurrence.getId());
+		for (LogOccurrence l: logOccurrences) {
+			logOccurrencesJson.add(new LogOccurrenceJson(l.getId(),l.getOccurredIn()));
 		}
 		
-		List<OccurrenceJson> occurrences = new ArrayList<OccurrenceJson>;
+		List<OccurrenceJson> occurrences = new ArrayList<OccurrenceJson>();
 		occurrences.add(new OccurrenceJson(occurrence.getTitle(), occurrence.getDetail(),logOccurrencesJson));
 		archiveJson.setOccurrences(occurrences);
+		
 		return archiveJson;
 	}
     
@@ -118,41 +133,36 @@ public class ArchiveServiceImpl implements ArchiveService{
     public boolean sendArchiveToLog(Long id) {
         if (archiveRepository.findById(id).isPresent()) {
             Archive archive = archiveRepository.findById(id).get();            
-            saveFromJson(archive.getArchive());
-            archiveRepository.deleteById(id);
+            try{
+            	saveFromJson(archive.getArchive());
+            	archiveRepository.deleteById(id);
+            } catch (NotFoundException e) {
+				System.out.println(e.getMessage());
+				return false;
+			}            
             return true;
         } else {
             return false;
         }        
     }
     
-    private void saveFromJson(ArchiveJson archiveJson) {
-        Log log = saveLogFromArchive(archiveJson.getEnvironment(), 
+    private void saveFromJson(ArchiveJson archiveJson)  throws NotFoundException {
+    	Long trackedSystemId = archiveJson.getTrackedSystem().get(0).getId();
+    	TrackedSystem trackedSystem = trackedSystemRepository.findById(trackedSystemId).orElseThrow(()-> new NotFoundException());
+        
+    	Log log = logService.saveLogFromArchive(
+    			archiveJson.getEnvironment(), 
                 archiveJson.getLevel(), 
-                archiveJson.getTenant(),
-                archiveJson.getTrackedSystem().get(0));
+                archiveJson.getTenantId(),
+                trackedSystem
+                );
         
         for(OccurrenceJson o: archiveJson.getOccurrences()) {
-            Occurrence occurrence = saveOccurrenceFromArchive(o);
+            Occurrence occurrence = occurrenceService.saveOccurrenceFromArchive(o);
+            
             for (LogOccurrenceJson l: o.getLogOccurrences()) {
-                saveLogOccurrence(log,occurrence,l.getOccurredIn());
+                logOccurrenceService.saveFromArchive(l.getId(),log,occurrence,l.getOccurredIn());
             }
         }
-    }    
-    
-    private Log saveLogFromArchive(Environment environment, Level level, Long tenantId, TrackedSystemJson trackedSystemJson) {
-        if (!logRepository.findByEnvironmentAndLevelAndTenantIdAndTrackedSystemId(environment,level,tenantId,trackedSystemJson.getId()).isPresent()) {
-            Log log = new Log(environment,level,tenantId,trackedSystemJson.getId());
-            logRepository.save(log);
-        }
-        return logRepository.findByEnvironmentAndLevelAndTenantIdAndTrackedSystemId(environment,level,tenantId,trackedSystemJson.getId()).get();
     }
-    
-    private Occurrence saveOccurrenceFromArchive(OccurrenceJson occurrenceJson) {
-        if (!occurrenceRepository.findByTitleAndDetail(occurrenceJson.getTitle(), occurrenceJson.getDetail()).isPresent()) {
-            Occurrence occurrence = new Occurrence(occurrenceJson.getId(),occurrenceJson.getTitle(),occurrenceJson.getDetail());
-            occurrenceRepository.save(occurrence);
-        }
-        return occurrenceRepository.findByTitle(o.getTitle()).get();
-    }	
 }
