@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
+import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
 import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 import br.com.quintoandar.sakuraerrorcaptor.repository.LogRepository;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogService;
@@ -31,27 +32,28 @@ public class LogServiceImpl implements LogService{
 
 	@Override
 	public List<Log> findByTenantId(Long id) {
-		return logRepository.findByTenantId(id);
+		//return logRepository.findByTenantId(id);
+		return null;
 	}
 
 	@Override
 	public List<Log> findByTenantUserId(Long id) {
-		return logRepository.findByTenantUserId(id);
+		//return logRepository.findByTenantUserId(id);
+		return null;
 	}
 
 	@Override
 	public List<Log> findByTenantIdAndTrackedSystemId(Long id) {
-		return logRepository.findByTenantIdAndTrackedSystemId(id);
+		return logRepository.findByTrackedSystemId(id);
 	}
 
 	@Override
-	public Log saveLogFromArchive(Environment environment, Level level, Long tenantId,
-			TrackedSystem trackedSystem) {
-		 if (!logRepository.findByEnvironmentAndLevelAndTenantIdAndTrackedSystemId(environment,level,tenantId,trackedSystem.getId()).isPresent()) {
-	            Log log = new Log(null, environment,level,tenantId,trackedSystem);
+	public Log saveLogFromArchive(Environment environment, Level level,	TrackedSystem trackedSystem) {
+		 if (!logRepository.findByEnvironmentAndLevelAndTrackedSystemId(environment,level,trackedSystem.getId()).isPresent()) {
+	            Log log = new Log(null, environment,level,trackedSystem);
 	            logRepository.save(log);
 	        }
-	        return logRepository.findByEnvironmentAndLevelAndTenantIdAndTrackedSystemId(environment,level,tenantId,trackedSystem.getId()).get();
+	        return logRepository.findByEnvironmentAndLevelAndTrackedSystemId(environment,level,trackedSystem.getId()).get();
 	}
 
 	@Override

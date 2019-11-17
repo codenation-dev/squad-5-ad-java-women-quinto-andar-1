@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.Level;
+import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
 
 public class ArchiveJson implements Serializable{
 	/**
@@ -21,9 +22,7 @@ public class ArchiveJson implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private Level level;
 	
-	private Long tenantId;
-	
-	private String tenant;
+	private List<TenantJson> tenant;
 	
 	private List<TrackedSystemJson> trackedSystem;
 		
@@ -45,22 +44,6 @@ public class ArchiveJson implements Serializable{
 		this.level = level;
 	}
 
-	public Long getTenantId() {
-		return tenantId;
-	}
-
-	public void setTenantId(Long tenantId) {
-		this.tenantId = tenantId;
-	}
-
-	public String getTenant() {
-		return tenant;
-	}
-
-	public void setTenant(String tenant) {
-		this.tenant = tenant;
-	}
-
 	public List<TrackedSystemJson> getTrackedSystem() {
 		return trackedSystem;
 	}
@@ -76,4 +59,17 @@ public class ArchiveJson implements Serializable{
 	public void setOccurrences(List<OccurrenceJson> occurrences) {
 		this.occurrences = occurrences;
 	}
+
+	public List<TenantJson> getTenant() {
+		return tenant;
+	}
+
+	public void setTenant(List<TenantJson> tenant) {
+		this.tenant = tenant;
+	}
+	public void addTenant(Long id, String name) {
+		this.tenant.clear();
+		this.tenant.add(new TenantJson(id,name));
+	}
+	
 }

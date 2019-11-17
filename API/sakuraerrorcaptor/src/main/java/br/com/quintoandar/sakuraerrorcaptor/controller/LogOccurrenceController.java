@@ -38,7 +38,7 @@ public class LogOccurrenceController {
 	}
 
 	@GetMapping
-	public List<LogDTO> findByLevel(@RequestParam(name="level", required = false) Level level,
+	public List<LogDTO> findByFilter(@RequestParam(name="level", required = false) Level level,
 									@RequestParam(name="description", required = false) String title,
 									@RequestParam(name="origin", required = false) String location){
 		List<LogOccurrence> logs =  logOccurrences.findByLevel(level);

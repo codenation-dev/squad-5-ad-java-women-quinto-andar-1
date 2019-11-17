@@ -9,21 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.quintoandar.sakuraerrorcaptor.exception.ArchiveNotFoundException;
+import br.com.quintoandar.sakuraerrorcaptor.error.ArchiveNotFoundException;
 import br.com.quintoandar.sakuraerrorcaptor.model.Archive;
-import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
-import br.com.quintoandar.sakuraerrorcaptor.model.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 import br.com.quintoandar.sakuraerrorcaptor.model.Occurrence;
+import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
 import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.ArchiveJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.LogOccurrenceJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.OccurrenceJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.TrackedSystemJson;
 import br.com.quintoandar.sakuraerrorcaptor.repository.ArchiveRepository;
-import br.com.quintoandar.sakuraerrorcaptor.repository.LogRepository;
-import br.com.quintoandar.sakuraerrorcaptor.repository.OccurrenceRepository;
+import br.com.quintoandar.sakuraerrorcaptor.repository.TenantRepository;
 import br.com.quintoandar.sakuraerrorcaptor.repository.TrackedSystemRepository;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.ArchiveService;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogOccurrenceService;
@@ -47,6 +45,9 @@ public class ArchiveServiceImpl implements ArchiveService{
     
     @Autowired
     TrackedSystemRepository trackedSystemRepository;
+    
+    @Autowired
+    TenantRepository tenantRepository;
     
     @Override
     public Optional<Archive> findById(Long id) {
@@ -103,8 +104,8 @@ public class ArchiveServiceImpl implements ArchiveService{
 		ArchiveJson archiveJson = new ArchiveJson();
 		archiveJson.setEnvironment(log.getEnvironment());
 		archiveJson.setLevel(log.getLevel());
-		archiveJson.setTenant("");
-		
+		archiveJson.addTenant(log.getTrackedSystem().getTenant().getId(), log.getTrackedSystem().getTenant().getName());
+
 		TrackedSystem trackedSystem = log.getTrackedSystem();
 		List<TrackedSystemJson> trackedSystemJson = new ArrayList<TrackedSystemJson>();
 		trackedSystemJson.add(new TrackedSystemJson(trackedSystem.getId(), 
@@ -152,7 +153,6 @@ public class ArchiveServiceImpl implements ArchiveService{
     	Log log = logService.saveLogFromArchive(
     			archiveJson.getEnvironment(), 
                 archiveJson.getLevel(), 
-                archiveJson.getTenantId(),
                 trackedSystem
                 );
         

@@ -35,18 +35,18 @@ public class TrackedSystemController {
         return trackedSystem.isPresent() ? ResponseEntity.ok(trackedSystem.get()) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public List<TrackedSystem> getByName(@PathVariable String name) {
         return _trackedSystemService.findByName(name);
     }
 
-    @GetMapping("/{token}")
+    @GetMapping("/token/{token}")
     public ResponseEntity<TrackedSystem> getByToken(@PathVariable String token)  throws NotFoundException {
         return new ResponseEntity<TrackedSystem>(_trackedSystemService.findByToken(token)
                 .orElseThrow(() -> new NotFoundException("Notfound TrackedSystem with token: " + token)), HttpStatus.OK);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/tenant/{tenantId}")
     public List<TrackedSystem> getByTenantId(@PathVariable Long tenantId) {
         return _trackedSystemService.findByTenantId(tenantId);
     }
