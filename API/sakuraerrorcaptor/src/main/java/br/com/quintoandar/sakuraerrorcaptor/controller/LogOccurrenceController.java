@@ -39,12 +39,12 @@ public class LogOccurrenceController {
 		return logOccurrences.findById(id);
 	}
 	
-	@GetMapping("/{level}")
+	@GetMapping("/level/{level}")
 	public List<LogOccurrence> findByLevel(@PathVariable Level level){
 		return logOccurrences.findByLevel(level);
 	}
 	
-	@GetMapping("/{environment}")
+	@GetMapping("/environment/{environment}")
 	public List<LogOccurrence> findByEnvironment(@PathVariable Environment environment){
 		return logOccurrences.findByEnvironment(environment);
 	}

@@ -18,7 +18,8 @@ public class TrackedSystem {
     @Column(length = 50, nullable = false)
     public String location;
 
-    //public Tenant tenant;
+    @ManyToOne
+    public Tenant tenant;
 
     @Column(length = 100, nullable = false)
     public String token;
@@ -54,6 +55,13 @@ public class TrackedSystem {
 	public void setToken(String token) {
 		this.token = token;
 	}
-    
+
+	public Tenant getTenant() {
+		return tenant;
+	}
+
+	public void setTenant(Tenant tenant) {
+		this.tenant = tenant;
+	}
     
 }

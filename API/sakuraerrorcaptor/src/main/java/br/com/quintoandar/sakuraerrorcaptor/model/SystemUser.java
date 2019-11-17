@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -23,8 +24,8 @@ public class SystemUser {
 	@Email
 	private String email;
 	
-	//ManyToOne
-	//private Tenant tenant;
+	@ManyToOne
+	private Tenant tenant;
 	
 	private String token;
 	
@@ -104,10 +105,20 @@ public class SystemUser {
 		this.disabledIn = disabledln;
 	}
 
-	
-	
-	
-	
-	
+	public Tenant getTenant() {
+		return tenant;
+	}
+
+	public void setTenant(Tenant tenant) {
+		this.tenant = tenant;
+	}
+
+	public Date getDisabledIn() {
+		return disabledIn;
+	}
+
+	public void setDisabledIn(Date disabledIn) {
+		this.disabledIn = disabledIn;
+	}
 
 }

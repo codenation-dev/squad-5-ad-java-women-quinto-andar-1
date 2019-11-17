@@ -1,4 +1,4 @@
-package br.com.quintoandar.sakuraerrorcaptor.exception;
+package br.com.quintoandar.sakuraerrorcaptor.error;
 
 public class ArchiveNotFoundException extends RuntimeException{
 
