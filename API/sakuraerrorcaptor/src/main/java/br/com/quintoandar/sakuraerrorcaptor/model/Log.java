@@ -25,9 +25,7 @@ public class Log {
 	@ManyToOne
 	private TrackedSystem trackedSystem;
 	
-	public Log() {
-		
-	}
+	public Log() {}
 
 	public Log(Long id, Environment environment, Level level, TrackedSystem trackedSystem) {
 		super();

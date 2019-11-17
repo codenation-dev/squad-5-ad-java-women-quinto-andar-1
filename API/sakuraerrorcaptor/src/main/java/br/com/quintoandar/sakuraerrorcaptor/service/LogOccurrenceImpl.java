@@ -20,46 +20,63 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 
 	@Autowired
 	LogOccurrenceRepository logOccurrenceRepository;
-	
-	@Override
-	public Optional<LogOccurrence> findById(Long id) {
-		// TODO Auto-generated method stub
-		return logOccurrenceRepository.findById(id);
-	}
 
 	@Override
 	public List<LogOccurrence> findAll() {
-		// TODO Auto-generated method stub
 		return logOccurrenceRepository.findAll();
 	}
 
 	@Override
+	public Optional<LogOccurrence> findById(Long id) {
+		return logOccurrenceRepository.findById(id);
+	}
+
+	@Override
+	public List<LogOccurrence> findByFilter(String level, String title, String location, String orderBy) {
+		if(!level.isEmpty()){
+			return this.findByLevel(Level.valueOf(level));
+		}
+
+		if(!title.isEmpty()){
+			return this.findByTitle(title);
+		}
+
+		if(!location.isEmpty()){
+			return this.findByLocation(location);
+		}
+
+		return findAll();
+	}
+
+	private List<LogOccurrence> findByLevel(Level level) {
+		return logOccurrenceRepository.findByLogLevel(level);
+	}
+
+	private List<LogOccurrence> findByTitle(String title) {
+		return logOccurrenceRepository.findByOccurrenceTitle(title);
+	}
+
+	private List<LogOccurrence> findByLocation(String location) {
+		return logOccurrenceRepository.findByLogTrackedSystemLocation(location);
+	}
+
+	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
 		logOccurrenceRepository.deleteById(id);
 	}
 
 	@Override
 	public LogOccurrence save(LogOccurrence logoccurrence) {
-		// TODO Auto-generated method stub
 		return logOccurrenceRepository.save(logoccurrence);
 	}
 
 	@Override
-	public List<LogOccurrence> findByLevel(Level level) {
-		// TODO Auto-generated method stub
-		return logOccurrenceRepository.findByLogLevel(level);
-	}
-
-	@Override
 	public List<LogOccurrence> findByEnvironment(Environment environment) {
-		// TODO Auto-generated method stub
 		return logOccurrenceRepository.findByLogEnvironment(environment);
 	}
 
 	@Override
 	public List<LogOccurrence> findByEnvironmentAndLevel(Environment environment,Level level) {
-		// TODO Auto-generated method stub
 		return logOccurrenceRepository.findByLogEnvironmentAndLogLevel(environment, level);
 	}
 

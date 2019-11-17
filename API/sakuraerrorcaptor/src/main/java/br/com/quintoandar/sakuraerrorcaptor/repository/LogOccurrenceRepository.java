@@ -11,10 +11,12 @@ import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 
 @Repository
 public interface LogOccurrenceRepository extends JpaRepository<LogOccurrence, Long>{
-	public List<LogOccurrence>findByLogIdAndOccurrenceId(Long logId,Long occurrenceId);
-	public List<LogOccurrence>findByOccurrenceDetail(String detail);
-	public List<LogOccurrence>findByOccurrenceTitle(String title);
-	public List<LogOccurrence>findByLogLevel(Level level);
-	public List<LogOccurrence>findByLogEnvironment(Environment environment);
-	public List<LogOccurrence>findByLogEnvironmentAndLogLevel(Environment environment, Level level);
+	public List<LogOccurrence> findByLogIdAndOccurrenceId(Long logId,Long occurrenceId);
+
+	public List<LogOccurrence> findByLogLevel(Level level);
+	public List<LogOccurrence> findByOccurrenceTitle(String title);
+	public List<LogOccurrence> findByLogTrackedSystemLocation(String location);
+
+	public List<LogOccurrence> findByLogEnvironment(Environment environment);
+	public List<LogOccurrence> findByLogEnvironmentAndLogLevel(Environment environment, Level level);
 }

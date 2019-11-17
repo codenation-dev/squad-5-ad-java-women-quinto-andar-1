@@ -105,7 +105,7 @@ public class ArchiveServiceImpl implements ArchiveService{
 		archiveJson.setEnvironment(log.getEnvironment());
 		archiveJson.setLevel(log.getLevel());
 		archiveJson.addTenant(log.getTrackedSystem().getTenant().getId(), log.getTrackedSystem().getTenant().getName());
-		
+
 		TrackedSystem trackedSystem = log.getTrackedSystem();
 		List<TrackedSystemJson> trackedSystemJson = new ArrayList<TrackedSystemJson>();
 		trackedSystemJson.add(new TrackedSystemJson(trackedSystem.getId(), 
