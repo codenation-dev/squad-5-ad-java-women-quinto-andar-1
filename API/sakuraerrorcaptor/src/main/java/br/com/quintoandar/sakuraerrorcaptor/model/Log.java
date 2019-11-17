@@ -1,9 +1,6 @@
 package br.com.quintoandar.sakuraerrorcaptor.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,20 +22,22 @@ public class Log {
 	@Enumerated(EnumType.STRING)
 	private Level level;
 
-	private Long tenantId;
+	@ManyToOne
+	private Tenant tenant;
 
+	@ManyToOne
 	private TrackedSystem trackedSystem;
 	
 	public Log() {
 		
 	}
 
-	public Log(Long id, Environment environment, Level level, Long tenantId, TrackedSystem trackedSystem) {
+	public Log(Long id, Environment environment, Level level, Tenant tenant, TrackedSystem trackedSystem) {
 		super();
 		this.id = id;
 		this.environment = environment;
 		this.level = level;
-		this.tenantId = tenantId;
+		this.tenant = tenant;
 		this.trackedSystem = trackedSystem;
 	}
 
@@ -66,14 +65,6 @@ public class Log {
 		this.level = level;
 	}
 
-	public Long getTenantId() {
-		return tenantId;
-	}
-
-	public void setTenantId(Long tenantId) {
-		this.tenantId = tenantId;
-	}
-
 	public TrackedSystem getTrackedSystem() {
 		return trackedSystem;
 	}
@@ -81,5 +72,14 @@ public class Log {
 	public void setTrackedSystem(TrackedSystem trackedSystem) {
 		this.trackedSystem = trackedSystem;
 	}
+
+	public Tenant getTenant() {
+		return tenant;
+	}
+
+	public void setTenant(Tenant tenant) {
+		this.tenant = tenant;
+	}
+	
 
 }

@@ -20,7 +20,7 @@ public class LogOccurrence {
 
     @NotEmpty(message = "This field is mandatory")
     @ManyToOne
-    private Occurrence Occurrence;
+    private Occurrence occurrence;
 
     @NotEmpty(message = "This field is mandatory")
     @CreatedDate
@@ -43,11 +43,11 @@ public class LogOccurrence {
 	}
 
 	public Occurrence getOccurrence() {
-		return Occurrence;
+		return occurrence;
 	}
 
 	public void setOccurrence(Occurrence Occurrence) {
-		this.Occurrence = Occurrence;
+		this.occurrence = Occurrence;
 	}
 
 	public LocalDateTime getOccurredIn() {

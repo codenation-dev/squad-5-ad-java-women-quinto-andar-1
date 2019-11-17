@@ -6,6 +6,7 @@ import java.util.Optional;
 import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
+import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
 import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 
 public interface LogService {
@@ -20,7 +21,7 @@ public interface LogService {
 	public List<Log> findByTenantId(Long id);
 	public List<Log> findByTenantUserId(Long id);
 	public List<Log> findByTenantIdAndTrackedSystemId(Long id);
-	public Log saveLogFromArchive(Environment environment, Level level, Long tenantId, TrackedSystem trackedSystem);
+	public Log saveLogFromArchive(Environment environment, Level level, Tenant tenant, TrackedSystem trackedSystem);
 	
 
 
