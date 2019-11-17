@@ -6,9 +6,8 @@ import java.util.List;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
-import br.com.quintoandar.sakuraerrorcaptor.model.Level;
-import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
 
 public class ArchiveJson implements Serializable{
 	/**

@@ -3,10 +3,9 @@ package br.com.quintoandar.sakuraerrorcaptor.service.interfaces;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
-import br.com.quintoandar.sakuraerrorcaptor.model.Level;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
-import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
 import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 
 public interface LogService {

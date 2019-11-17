@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
-import br.com.quintoandar.sakuraerrorcaptor.model.Level;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 
 @Repository
