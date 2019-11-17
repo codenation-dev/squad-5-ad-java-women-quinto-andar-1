@@ -23,21 +23,17 @@ public class Log {
 	private Level level;
 
 	@ManyToOne
-	private Tenant tenant;
-
-	@ManyToOne
 	private TrackedSystem trackedSystem;
 	
 	public Log() {
 		
 	}
 
-	public Log(Long id, Environment environment, Level level, Tenant tenant, TrackedSystem trackedSystem) {
+	public Log(Long id, Environment environment, Level level, TrackedSystem trackedSystem) {
 		super();
 		this.id = id;
 		this.environment = environment;
 		this.level = level;
-		this.tenant = tenant;
 		this.trackedSystem = trackedSystem;
 	}
 
@@ -72,14 +68,4 @@ public class Log {
 	public void setTrackedSystem(TrackedSystem trackedSystem) {
 		this.trackedSystem = trackedSystem;
 	}
-
-	public Tenant getTenant() {
-		return tenant;
-	}
-
-	public void setTenant(Tenant tenant) {
-		this.tenant = tenant;
-	}
-	
-
 }

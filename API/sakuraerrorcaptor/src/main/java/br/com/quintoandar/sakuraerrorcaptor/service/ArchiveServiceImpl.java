@@ -104,7 +104,7 @@ public class ArchiveServiceImpl implements ArchiveService{
 		ArchiveJson archiveJson = new ArchiveJson();
 		archiveJson.setEnvironment(log.getEnvironment());
 		archiveJson.setLevel(log.getLevel());
-		archiveJson.addTenant(log.getTenant().getId(), log.getTenant().getName());
+		archiveJson.addTenant(log.getTrackedSystem().getTenant().getId(), log.getTrackedSystem().getTenant().getName());
 		
 		TrackedSystem trackedSystem = log.getTrackedSystem();
 		List<TrackedSystemJson> trackedSystemJson = new ArrayList<TrackedSystemJson>();
@@ -150,13 +150,9 @@ public class ArchiveServiceImpl implements ArchiveService{
     	Long trackedSystemId = archiveJson.getTrackedSystem().get(0).getId();
     	TrackedSystem trackedSystem = trackedSystemRepository.findById(trackedSystemId).orElseThrow(()-> new NotFoundException());
         
-    	Long tenantId = archiveJson.getTenant().get(0).getId();
-    	Tenant tenant = tenantRepository.findById(tenantId).get();
-        
     	Log log = logService.saveLogFromArchive(
     			archiveJson.getEnvironment(), 
                 archiveJson.getLevel(), 
-                tenant,
                 trackedSystem
                 );
         

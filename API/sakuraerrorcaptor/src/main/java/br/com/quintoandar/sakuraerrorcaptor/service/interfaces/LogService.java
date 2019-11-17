@@ -21,7 +21,7 @@ public interface LogService {
 	public List<Log> findByTenantId(Long id);
 	public List<Log> findByTenantUserId(Long id);
 	public List<Log> findByTenantIdAndTrackedSystemId(Long id);
-	public Log saveLogFromArchive(Environment environment, Level level, Tenant tenant, TrackedSystem trackedSystem);
+	public Log saveLogFromArchive(Environment environment, Level level, TrackedSystem trackedSystem);
 	
 
 

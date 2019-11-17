@@ -48,13 +48,12 @@ public class LogServiceImpl implements LogService{
 	}
 
 	@Override
-	public Log saveLogFromArchive(Environment environment, Level level, Tenant tenant,
-			TrackedSystem trackedSystem) {
-		 if (!logRepository.findByEnvironmentAndLevelAndTenantIdAndTrackedSystemId(environment,level,tenant.getId(),trackedSystem.getId()).isPresent()) {
-	            Log log = new Log(null, environment,level,tenant,trackedSystem);
+	public Log saveLogFromArchive(Environment environment, Level level,	TrackedSystem trackedSystem) {
+		 if (!logRepository.findByEnvironmentAndLevelAndTrackedSystemId(environment,level,trackedSystem.getId()).isPresent()) {
+	            Log log = new Log(null, environment,level,trackedSystem);
 	            logRepository.save(log);
 	        }
-	        return logRepository.findByEnvironmentAndLevelAndTenantIdAndTrackedSystemId(environment,level,tenant.getId(),trackedSystem.getId()).get();
+	        return logRepository.findByEnvironmentAndLevelAndTrackedSystemId(environment,level,trackedSystem.getId()).get();
 	}
 
 	@Override
