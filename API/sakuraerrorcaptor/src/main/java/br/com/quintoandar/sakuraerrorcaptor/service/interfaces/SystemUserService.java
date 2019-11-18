@@ -16,6 +16,7 @@ public interface SystemUserService {
 
     public List<SystemUser>findByTenantId (Long id);
     public SystemUser findByName (String name);
+    public SystemUser findByEmail(String email);
     public Optional<SystemUser>findByToken (String id);
 
 }

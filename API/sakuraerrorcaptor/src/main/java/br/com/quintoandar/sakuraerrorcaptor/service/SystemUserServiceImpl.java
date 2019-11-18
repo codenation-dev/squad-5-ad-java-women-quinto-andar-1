@@ -42,6 +42,11 @@ public class SystemUserServiceImpl implements SystemUserService{
 	public SystemUser findByName(String name) {
 		return repository.findByName(name);
 	}
+	
+	@Override
+	public SystemUser findByEmail(String email) {
+		return repository.findByEmail(email);
+	}
 
 	@Override
 	public Optional<SystemUser> findByToken(String token) {
