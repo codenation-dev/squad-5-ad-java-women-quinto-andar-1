@@ -34,6 +34,7 @@ public class Archive extends JSONBEntity {
 	public Archive(Long id, ArchiveJson archive) {
 		this.id = id;
 		this.archive = archive;
+		this.archivedIn = LocalDateTime.now();		
 	}
 	
 	public Archive() {

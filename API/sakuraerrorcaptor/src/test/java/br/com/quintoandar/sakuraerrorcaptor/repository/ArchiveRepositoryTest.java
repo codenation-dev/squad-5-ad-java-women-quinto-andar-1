@@ -2,6 +2,10 @@ package br.com.quintoandar.sakuraerrorcaptor.repository;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -9,8 +13,12 @@ import org.springframework.test.context.ActiveProfiles;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.Archive;
 import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
+import br.com.quintoandar.sakuraerrorcaptor.model.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.ArchiveJson;
+import br.com.quintoandar.sakuraerrorcaptor.model.json.LogOccurrenceJson;
+import br.com.quintoandar.sakuraerrorcaptor.model.json.OccurrenceJson;
+import br.com.quintoandar.sakuraerrorcaptor.model.json.TrackedSystemJson;
 
 @ActiveProfiles("dev")
 @DataJpaTest
@@ -22,15 +30,30 @@ public class ArchiveRepositoryTest {
 	@Test
 	public void saveTest() {
 		ArchiveJson json = new ArchiveJson();
-		json.addTenant(1L,"");
-		json.setEnvironment(Environment.DEV);
+		OccurrenceJson oJson = new OccurrenceJson("test","save test", new ArrayList<LogOccurrenceJson>());
+		oJson.setId(1L);
+		List<OccurrenceJson> listOccurrence = new ArrayList<OccurrenceJson>();
+		listOccurrence.add(oJson);
 		
-		Archive archive = new Archive(1L,json);
+		TrackedSystemJson tSJson = new TrackedSystemJson(1L, "test system", "127.0.0.1", "0");
+		List<TrackedSystemJson> listTrackedSystem = new ArrayList<TrackedSystemJson>();
+		listTrackedSystem.add(tSJson);
+		
+		json.setEnvironment(Environment.DEV);
+		json.setLevel(Level.DEBUG);
+		json.setOccurrences(listOccurrence);
+		json.setTrackedSystem(listTrackedSystem);
+		json.addTenant(1L,"");
+		System.out.println(json.toString());
+		Archive archive = archiveRepository.findById(1L).get();
+		//Archive archive = new Archive(1L,json);
+		//archive.setArchivedIn(LocalDateTime.now());
+		System.out.println(archive.getId());
 		
 		try{
 			archiveRepository.save(archive);		
 		}catch (Exception e) {
-			fail("[Archive - saveTest] Não foi possível salvar"+ e.getCause());
+			fail("[Archive - saveTest] Não foi possível salvar"+ e.getMessage());
 		}
 	}
 	

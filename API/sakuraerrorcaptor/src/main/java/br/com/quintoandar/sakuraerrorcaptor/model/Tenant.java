@@ -18,6 +18,7 @@ public class Tenant {
 	
 	private String name;
 	
+	
 	@OneToMany(
 	        cascade = CascadeType.ALL,
 	        orphanRemoval = true
@@ -31,6 +32,7 @@ public class Tenant {
 	    )
 	@JoinColumn(name = "tenant_id")
 	private List<TrackedSystem> trackedSystems;
+	
 	
 	public Tenant() {
 		
@@ -53,21 +55,4 @@ public class Tenant {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public List<SystemUser> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<SystemUser> users) {
-		this.users = users;
-	}
-
-	public List<TrackedSystem> getTrackedSystems() {
-		return trackedSystems;
-	}
-
-	public void setTrackedSystems(List<TrackedSystem> trackedSystems) {
-		this.trackedSystems = trackedSystems;
-	}
-	
 }

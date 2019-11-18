@@ -21,7 +21,8 @@ public class ArchiveController {
 	
 	@GetMapping("/{id}")
 	public Archive findbyId(@PathVariable Long id) {
-		return archiveService.findById(id).orElse(new Archive());
+		Archive a = archiveService.findById(id).orElse(new Archive());
+		return a;
 	}
 	
 	@GetMapping

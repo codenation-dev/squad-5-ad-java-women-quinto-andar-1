@@ -43,4 +43,12 @@ public class TrackedSystemJson implements Serializable{
 	public void setToken(String token) {
 		this.token = token;
 	}	
+	@Override
+	public String toString() {
+		String result = "            \"id\": \""+this.id+"\""
+				+",\n            \"name\": \""+this.name+"\""
+				+",\n            \"location\": \""+this.location+"\""
+				+",\n            \"token\": \""+this.token+"\"";
+		return result;
+	}
 }

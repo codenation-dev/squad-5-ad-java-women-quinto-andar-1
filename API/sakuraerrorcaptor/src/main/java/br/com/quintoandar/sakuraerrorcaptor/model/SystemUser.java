@@ -35,11 +35,9 @@ public class SystemUser {
     @NotEmpty(message = "This field is mandatory")
 	private Date createdIn;
 	
-	private Boolean active;
+	private Boolean active;	
 	
-	
-	private Date disabledIn;
-	
+	private Date disabledIn;	
 
 	public Long getId() {
 		return id;
@@ -95,14 +93,6 @@ public class SystemUser {
 
 	public void setActive(Boolean active) {
 		this.active = active;
-	}
-
-	public Date getDisabledln() {
-		return disabledIn;
-	}
-
-	public void setDisabledln(Date disabledln) {
-		this.disabledIn = disabledln;
 	}
 
 	public Tenant getTenant() {

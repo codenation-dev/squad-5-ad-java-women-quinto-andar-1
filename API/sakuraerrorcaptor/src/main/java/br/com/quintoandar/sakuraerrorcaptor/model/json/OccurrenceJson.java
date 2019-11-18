@@ -42,5 +42,25 @@ public class OccurrenceJson implements Serializable {
 	}
 	public void setLogOccurrences(List<LogOccurrenceJson> logOccurrences) {
 		this.logOccurrences = logOccurrences;
-	}	
+	}
+	private String getLogOccurrencesToString() {		
+		String result = "                {\n";
+		for (LogOccurrenceJson l: this.logOccurrences) {
+			if (!result.equals("                {\n")) {
+				result = result +",";
+			}
+			result = result + l.toString()+"\n";
+		}
+		return result+"                }\n";
+	}
+	@Override
+	public String toString() {
+		String result = "            \"id\": \""+this.id+"\""
+				+",\n            \"title\": \""+this.title+"\""
+				+",\n            \"detail\": \""+this.detail+"\""
+				+",\n            \"logOccurrences\":[\n"
+				+getLogOccurrencesToString()
+				+"            ]";
+		return result;
+	}
 }

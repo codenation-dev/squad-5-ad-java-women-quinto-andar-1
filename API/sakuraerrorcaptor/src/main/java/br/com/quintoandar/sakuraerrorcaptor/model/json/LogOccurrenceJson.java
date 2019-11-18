@@ -36,5 +36,11 @@ public class LogOccurrenceJson implements Serializable{
 	public void setOccurredIn(LocalDateTime occurredIn) {
 		this.occurredIn = occurredIn;
 	}
+	@Override
+	public String toString() {
+		String result = "                \"id\": \""+this.id+"\""
+				+",\n                \"occurredIn\": \""+this.occurredIn+"\"";
+		return result;
+	}
 	
 }
