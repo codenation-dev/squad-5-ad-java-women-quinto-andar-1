@@ -10,4 +10,8 @@ public class SystemUserNotFound extends RuntimeException{
 	 public SystemUserNotFound(Long id){
 	        super("SystemUser with id " + id + " not found.");
 	    }
+	 
+	 public SystemUserNotFound(String email){
+	        super("SystemUser with email " + email + " not found.");
+	    }
 }
