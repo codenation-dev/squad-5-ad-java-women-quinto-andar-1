@@ -2,15 +2,17 @@ package br.com.quintoandar.sakuraerrorcaptor.model;
 
 import java.util.Date;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.annotation.CreatedDate;
+
+import br.com.quintoandar.sakuraerrorcaptor.util.LocalDateTimeConverter;
 
 @Entity
 public class SystemUser {
@@ -120,5 +122,4 @@ public class SystemUser {
 	public void setDisabledIn(Date disabledIn) {
 		this.disabledIn = disabledIn;
 	}
-
 }
