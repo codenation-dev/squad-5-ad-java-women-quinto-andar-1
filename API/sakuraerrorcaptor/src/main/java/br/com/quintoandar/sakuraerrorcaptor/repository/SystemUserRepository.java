@@ -14,6 +14,7 @@ public interface SystemUserRepository extends JpaRepository <SystemUser, Long>{
 	
 	public Optional<SystemUser> findById(Long id);	
 	public SystemUser findByName(String name);
+	public SystemUser findByEmail(String email);
     public Optional<SystemUser>findByToken (String token);
     public List<SystemUser>findByTenantId (Long id);
 

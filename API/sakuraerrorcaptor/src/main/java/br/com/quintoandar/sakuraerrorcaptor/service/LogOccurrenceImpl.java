@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
-import br.com.quintoandar.sakuraerrorcaptor.model.Level;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 import br.com.quintoandar.sakuraerrorcaptor.model.Occurrence;
@@ -32,57 +32,46 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	}
 
 	@Override
-	public List<LogOccurrence> findByFilter(String level, String title, String location, String orderBy) {
+	public List<LogOccurrence> findByFilter(String environment, String level, String title, String location, String orderBy) {
 		if(!level.isEmpty()){
-			return this.findByLevel(Level.valueOf(level));
+			return this.findByEnvironmentAndLevel(Environment.valueOf(environment), Level.valueOf(level));
 		}
 
 		if(!title.isEmpty()){
-			return this.findByTitle(title);
+			return this.findByEnvironmentAndTitle(Environment.valueOf(environment), title);
 		}
 
 		if(!location.isEmpty()){
-			return this.findByLocation(location);
+			return this.findByEnvironmentAndLocation(Environment.valueOf(environment), location);
 		}
 
-		return findAll();
+		return this.findByEnvironment(Environment.valueOf(environment));
 	}
 
-	private List<LogOccurrence> findByLevel(Level level) {
-		return logOccurrenceRepository.findByLogLevel(level);
-	}
-
-	private List<LogOccurrence> findByTitle(String title) {
-		return logOccurrenceRepository.findByOccurrenceTitle(title);
-	}
-
-	private List<LogOccurrence> findByLocation(String location) {
-		return logOccurrenceRepository.findByLogTrackedSystemLocation(location);
-	}
-
-	@Override
-	public void delete(Long id) {
-		logOccurrenceRepository.deleteById(id);
-	}
-
-	@Override
-	public LogOccurrence save(LogOccurrence logoccurrence) {
-		return logOccurrenceRepository.save(logoccurrence);
-	}
-
-	@Override
-	public List<LogOccurrence> findByEnvironment(Environment environment) {
-		return logOccurrenceRepository.findByLogEnvironment(environment);
-	}
-
-	@Override
-	public List<LogOccurrence> findByEnvironmentAndLevel(Environment environment,Level level) {
+	private List<LogOccurrence> findByEnvironmentAndLevel(Environment environment, Level level) {
 		return logOccurrenceRepository.findByLogEnvironmentAndLogLevel(environment, level);
+	}
+
+	private List<LogOccurrence> findByEnvironmentAndTitle(Environment environment, String title) {
+		return logOccurrenceRepository.findByLogEnvironmentAndOccurrenceTitle(environment, title);
+	}
+
+	private List<LogOccurrence> findByEnvironmentAndLocation(Environment environment, String location) {
+		return logOccurrenceRepository.findByLogEnvironmentAndLogTrackedSystemLocation(environment, location);
+	}
+
+	private List<LogOccurrence> findByEnvironment(Environment environment) {
+		return logOccurrenceRepository.findByLogEnvironment(environment);
 	}
 
 	@Override
 	public List<LogOccurrence> findByLogIdAndOccurrenceId(Long logId, Long occurrenceId) {
 		return logOccurrenceRepository.findByLogIdAndOccurrenceId(logId, occurrenceId);
+	}
+
+	@Override
+	public LogOccurrence save(LogOccurrence logoccurrence) {
+		return logOccurrenceRepository.save(logoccurrence);
 	}
 
 	@Override
@@ -98,6 +87,10 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 		}
 		return logOccurrenceRepository.findById(id).get();
 	}
-	
+
+	@Override
+	public void delete(Long id) {
+		logOccurrenceRepository.deleteById(id);
+	}
 	
 }

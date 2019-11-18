@@ -24,6 +24,8 @@ public class SystemUser {
 	@Email
 	private String email;
 	
+	private String password;
+	
 	@ManyToOne
 	private Tenant tenant;
 	
@@ -32,7 +34,7 @@ public class SystemUser {
 	private Boolean admin;
 	
 	@CreatedDate
-    @NotEmpty(message = "This field is mandatory")
+//    @NotEmpty(message = "This field is mandatory")
 	private Date createdIn;
 	
 	private Boolean active;	
@@ -63,6 +65,14 @@ public class SystemUser {
 		this.email = email;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	public String getToken() {
 		return token;
 	}

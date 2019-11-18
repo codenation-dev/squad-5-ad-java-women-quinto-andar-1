@@ -1,6 +1,6 @@
 package br.com.quintoandar.sakuraerrorcaptor.mapper;
 
-import br.com.quintoandar.sakuraerrorcaptor.dto.LogDTO;
+import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 
 import java.time.LocalDateTime;
@@ -9,8 +9,8 @@ import java.util.List;
 
 public class LogOccurrenceMapper {
 
-    public LogDTO map(LogOccurrence logOccurrence){
-        LogDTO logOccurrenceDTO =  new LogDTO(
+    public LogDetailsDTO map(LogOccurrence logOccurrence){
+        LogDetailsDTO logOccurrenceDTO =  new LogDetailsDTO(
                 logOccurrence.getLog().getId(),
                 logOccurrence.getOccurrence().getId(),
                 logOccurrence.getLog().getLevel().toString(),
@@ -29,12 +29,12 @@ public class LogOccurrenceMapper {
         return logOccurrenceDTO;
     };
 
-    public List<LogDTO> map(List<LogOccurrence> logs){
+    public List<LogDetailsDTO> map(List<LogOccurrence> logs){
 
-        List<LogDTO> logsDTO = new ArrayList<>();
+        List<LogDetailsDTO> logsDTO = new ArrayList<>();
 
         for(LogOccurrence item : logs){
-            LogDTO obj = new LogDTO(
+            LogDetailsDTO obj = new LogDetailsDTO(
                     item.getLog().getId(),
                     item.getOccurrence().getId(),
                     item.getLog().getLevel().toString(),

@@ -2,7 +2,7 @@ package br.com.quintoandar.sakuraerrorcaptor.dto;
 
 import java.time.LocalDateTime;
 
-public class LogDTO {
+public class LogDetailsDTO {
     private Long idLog;
     private Long idOccurrence;
 
@@ -24,10 +24,10 @@ public class LogDTO {
 
     private UserDTO user;
 
-    public LogDTO(Long idLog, Long idOccurrence, String level,
-                  String environment, String origin, String titleLog,
-                  String details, Integer countEvent, LocalDateTime dateLogger,
-                  String systemToken, UserDTO user) {
+    public LogDetailsDTO(Long idLog, Long idOccurrence, String level,
+                         String environment, String origin, String titleLog,
+                         String details, Integer countEvent, LocalDateTime dateLogger,
+                         String systemToken, UserDTO user) {
         this.idLog = idLog;
         this.idOccurrence = idOccurrence;
         this.level = level;

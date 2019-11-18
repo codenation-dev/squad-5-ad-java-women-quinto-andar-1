@@ -1,5 +1,8 @@
 package br.com.quintoandar.sakuraerrorcaptor.model;
 
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
+
 import javax.persistence.*;
 
 import javax.persistence.Entity;

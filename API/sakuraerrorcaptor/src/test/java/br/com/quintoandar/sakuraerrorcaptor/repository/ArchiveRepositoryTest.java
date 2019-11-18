@@ -12,9 +12,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.Archive;
-import br.com.quintoandar.sakuraerrorcaptor.model.Environment;
-import br.com.quintoandar.sakuraerrorcaptor.model.Level;
-import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
+import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.ArchiveJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.LogOccurrenceJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.OccurrenceJson;
