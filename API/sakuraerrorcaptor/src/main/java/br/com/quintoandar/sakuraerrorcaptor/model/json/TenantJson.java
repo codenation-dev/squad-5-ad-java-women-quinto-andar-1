@@ -29,5 +29,11 @@ public class TenantJson implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Override
+	public String toString() {
+		String result = "            \"id\": \""+this.id+"\""
+				+",\n            \"name\": \""+this.name+"\"";
+		return result;
+	}
 	
 }

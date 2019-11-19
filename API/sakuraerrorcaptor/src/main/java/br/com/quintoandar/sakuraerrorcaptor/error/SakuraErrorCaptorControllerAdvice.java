@@ -15,5 +15,12 @@ class SakuraErrorCaptorControllerAdvice {
     public String handleOccurrenceNotFoundException(OccurrenceNotFound ex) {
         return ex.getMessage();
     }
+    
+    @ExceptionHandler(TenantNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String handleTenantNotFoundException(TenantNotFound ex) {
+        return ex.getMessage();
+    }
 
 }

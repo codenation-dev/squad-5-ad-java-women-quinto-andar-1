@@ -6,19 +6,20 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.quintoandar.sakuraerrorcaptor.error.TenantNotFound;
 import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
+import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
 import br.com.quintoandar.sakuraerrorcaptor.repository.SystemUserRepository;
+import br.com.quintoandar.sakuraerrorcaptor.repository.TenantRepository;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.SystemUserService;;
 
 @Service
 public class SystemUserServiceImpl implements SystemUserService{
-
-	private final SystemUserRepository repository;
+	@Autowired
+	private SystemUserRepository repository;
 
 	@Autowired
-	SystemUserServiceImpl(SystemUserRepository repository) {
-		this.repository = repository;
-	}
+	private TenantRepository tenantRepository;
 
 	@Override
 	public Optional<SystemUser> findById(Long id) {
@@ -28,7 +29,16 @@ public class SystemUserServiceImpl implements SystemUserService{
 
 	@Override
 	public SystemUser save(SystemUser systemUser) {
-        return repository.save(systemUser);
+		if (systemUser.getTenant() == null ||
+			!tenantRepository.findByIdAndName(systemUser.getTenant().getId(),
+					                          systemUser.getTenant().getName()).isPresent()	) {
+			throw new TenantNotFound();
+		}
+		systemUser.setActive(true);
+		systemUser.setAdmin(false);
+		systemUser.setTenant(tenantRepository.findById(systemUser.getTenant().getId()).orElseThrow(()-> new TenantNotFound()));
+        
+		return repository.save(systemUser);
 
 	}
 

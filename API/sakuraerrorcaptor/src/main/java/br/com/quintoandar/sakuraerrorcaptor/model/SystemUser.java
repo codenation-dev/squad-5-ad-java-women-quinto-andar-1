@@ -2,15 +2,17 @@ package br.com.quintoandar.sakuraerrorcaptor.model;
 
 import java.util.Date;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.annotation.CreatedDate;
+
+import br.com.quintoandar.sakuraerrorcaptor.util.LocalDateTimeConverter;
 
 @Entity
 public class SystemUser {
@@ -37,11 +39,9 @@ public class SystemUser {
 //    @NotEmpty(message = "This field is mandatory")
 	private Date createdIn;
 	
-	private Boolean active;
+	private Boolean active;	
 	
-	
-	private Date disabledIn;
-	
+	private Date disabledIn;	
 
 	public Long getId() {
 		return id;
@@ -107,14 +107,6 @@ public class SystemUser {
 		this.active = active;
 	}
 
-	public Date getDisabledln() {
-		return disabledIn;
-	}
-
-	public void setDisabledln(Date disabledln) {
-		this.disabledIn = disabledln;
-	}
-
 	public Tenant getTenant() {
 		return tenant;
 	}
@@ -130,5 +122,4 @@ public class SystemUser {
 	public void setDisabledIn(Date disabledIn) {
 		this.disabledIn = disabledIn;
 	}
-
 }

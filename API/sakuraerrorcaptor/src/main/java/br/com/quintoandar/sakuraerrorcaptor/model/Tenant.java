@@ -1,5 +1,6 @@
 package br.com.quintoandar.sakuraerrorcaptor.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,12 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Tenant {
+public class Tenant implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String name;
+	
 	
 	@OneToMany(
 	        cascade = CascadeType.ALL,
@@ -31,6 +33,7 @@ public class Tenant {
 	    )
 	@JoinColumn(name = "tenant_id")
 	private List<TrackedSystem> trackedSystems;
+	
 	
 	public Tenant() {
 		
@@ -53,21 +56,4 @@ public class Tenant {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public List<SystemUser> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<SystemUser> users) {
-		this.users = users;
-	}
-
-	public List<TrackedSystem> getTrackedSystems() {
-		return trackedSystems;
-	}
-
-	public void setTrackedSystems(List<TrackedSystem> trackedSystems) {
-		this.trackedSystems = trackedSystems;
-	}
-	
 }
