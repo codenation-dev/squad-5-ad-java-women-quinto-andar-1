@@ -2,7 +2,6 @@ package br.com.quintoandar.sakuraerrorcaptor.model;
 
 import java.util.Date;
 
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 
 import org.springframework.data.annotation.CreatedDate;
-
-import br.com.quintoandar.sakuraerrorcaptor.util.LocalDateTimeConverter;
 
 @Entity
 public class SystemUser {
@@ -42,6 +39,25 @@ public class SystemUser {
 	private Boolean active;	
 	
 	private Date disabledIn;	
+
+	public SystemUser() {
+		
+	}
+	public SystemUser(Long id, String name, @Email String email, String password, 
+			Tenant tenant, String token,
+			Boolean admin, Date createdIn, Boolean active, Date disabledIn) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.tenant = tenant;
+		this.token = token;
+		this.admin = admin;
+		this.createdIn = createdIn;
+		this.active = active;
+		this.disabledIn = disabledIn;
+	}
 
 	public Long getId() {
 		return id;

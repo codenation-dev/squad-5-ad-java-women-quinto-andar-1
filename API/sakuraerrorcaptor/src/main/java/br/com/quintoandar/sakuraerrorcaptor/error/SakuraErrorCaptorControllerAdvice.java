@@ -22,5 +22,26 @@ class SakuraErrorCaptorControllerAdvice {
     public String handleTenantNotFoundException(TenantNotFound ex) {
         return ex.getMessage();
     }
+    
+    @ExceptionHandler(SystemUserNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String handleSystemUserNotFoundException(SystemUserNotFound ex) {
+        return ex.getMessage();
+    }
+    
+    @ExceptionHandler(TenantIdAlreadyInUse.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseBody
+    public String handleTenantIdAlreadyInUseException(TenantIdAlreadyInUse ex) {
+        return ex.getMessage();
+    }
+    
+    @ExceptionHandler(TenantNameAlreadyInUse.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseBody
+    public String handleTenantNameAlreadyInUseException(TenantNameAlreadyInUse ex) {
+        return ex.getMessage();
+    }
 
 }
