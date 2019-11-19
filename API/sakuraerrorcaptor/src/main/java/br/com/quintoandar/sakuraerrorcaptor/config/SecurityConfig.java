@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
-import br.com.quintoandar.sakuraerrorcaptor.model.LoginUserDTO;
+import br.com.quintoandar.sakuraerrorcaptor.dto.LoginUserDTO;
 import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 import br.com.quintoandar.sakuraerrorcaptor.repository.SystemUserRepository;
 

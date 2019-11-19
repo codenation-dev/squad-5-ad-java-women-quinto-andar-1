@@ -1,9 +1,11 @@
-package br.com.quintoandar.sakuraerrorcaptor.model;
+package br.com.quintoandar.sakuraerrorcaptor.dto;
 
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 
 public class LoginUserDTO implements UserDetails {
 
