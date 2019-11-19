@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.LoginUserDTO;
-import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 import br.com.quintoandar.sakuraerrorcaptor.repository.SystemUserRepository;
 
 @EnableWebSecurity
@@ -27,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManager();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
