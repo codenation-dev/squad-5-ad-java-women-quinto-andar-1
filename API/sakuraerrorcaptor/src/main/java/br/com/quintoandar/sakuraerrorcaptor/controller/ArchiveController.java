@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.Archive;
 import br.com.quintoandar.sakuraerrorcaptor.service.ArchiveServiceImpl;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/archive")
@@ -19,6 +22,8 @@ public class ArchiveController {
 	@Autowired
 	ArchiveServiceImpl archiveService;
 	
+	@ApiOperation("Search for an archived log by id")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Archive exists"), @ApiResponse(code = 404, message="Archive doesn't exist")})
 	@GetMapping("/{id}")
 	public Archive findbyId(@PathVariable Long id) {
 		Archive a = archiveService.findById(id).orElse(new Archive());

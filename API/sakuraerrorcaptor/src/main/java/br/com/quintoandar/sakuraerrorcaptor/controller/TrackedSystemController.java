@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/trackedSystem")
+@RequestMapping("/trackedSystem")
 public class TrackedSystemController {
 
     @Autowired
