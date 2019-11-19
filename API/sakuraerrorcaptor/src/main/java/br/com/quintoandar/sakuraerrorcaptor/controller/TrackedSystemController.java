@@ -2,6 +2,9 @@ package br.com.quintoandar.sakuraerrorcaptor.controller;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.TrackedSystemService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,57 +20,77 @@ import java.util.Optional;
 public class TrackedSystemController {
 
     @Autowired
-    private TrackedSystemService _trackedSystemService;
+    private TrackedSystemService trackedSystemService;
 
     @GetMapping
-    public Iterable<TrackedSystem> getAll(){
-        return  _trackedSystemService.findAll();
+    @ApiOperation("Search all tracked systems")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Tracked system exists"), @ApiResponse(code = 404, message="Tracked system doesn't exist")})
+	public ResponseEntity<Iterable<TrackedSystem>> getAll(){
+        return new ResponseEntity<>(trackedSystemService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TrackedSystem> getById(@PathVariable Long id){
+    @ApiOperation("Search a tracked system by id")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Tracked system exists"), @ApiResponse(code = 404, message="Tracked system doesn't exist")})
+	public ResponseEntity<ResponseEntity<TrackedSystem>> getById(@PathVariable Long id){
 
         //return new ResponseEntity<TrackedSystem>(_trackedSystemService.findById(id)
                 //.orElseThrow(() -> new NotFoundException("Notfound TrackedSystem with id: " + id)), HttpStatus.OK);
 
-        Optional<TrackedSystem> trackedSystem = _trackedSystemService.findById(id);
-        return trackedSystem.isPresent() ? ResponseEntity.ok(trackedSystem.get()) : ResponseEntity.notFound().build();
+        Optional<TrackedSystem> trackedSystem = trackedSystemService.findById(id);
+        return new ResponseEntity<>(trackedSystem.isPresent() ? ResponseEntity.ok(trackedSystem.get()) : ResponseEntity.notFound().build(), HttpStatus.OK);
     }
 
     @GetMapping("/name/{name}")
-    public List<TrackedSystem> getByName(@PathVariable String name) {
-        return _trackedSystemService.findByName(name);
+    @ApiOperation("Search a tracked system by name")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Tracked system exists"), @ApiResponse(code = 404, message="Tracked system doesn't exist")})
+	public ResponseEntity<List<TrackedSystem>> getByName(@PathVariable String name) {
+        return new ResponseEntity<>(trackedSystemService.findByName(name), HttpStatus.OK);
     }
 
     @GetMapping("/token/{token}")
-    public ResponseEntity<TrackedSystem> getByToken(@PathVariable String token)  throws NotFoundException {
-        return new ResponseEntity<TrackedSystem>(_trackedSystemService.findByToken(token)
+    @ApiOperation("Search a tracked system by token")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Tracked system exists"), @ApiResponse(code = 404, message="Tracked system doesn't exist")})
+	public ResponseEntity<TrackedSystem> getByToken(@PathVariable String token)  throws NotFoundException {
+        return new ResponseEntity<TrackedSystem>(trackedSystemService.findByToken(token)
                 .orElseThrow(() -> new NotFoundException("Notfound TrackedSystem with token: " + token)), HttpStatus.OK);
     }
 
     @GetMapping("/tenant/{tenantId}")
-    public List<TrackedSystem> getByTenantId(@PathVariable Long tenantId) {
-        return _trackedSystemService.findByTenantId(tenantId);
+    @ApiOperation("Search a tracked system by tenant id")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Tracked system exists"), @ApiResponse(code = 404, message="Tracked system doesn't exist")})
+	public ResponseEntity<List<TrackedSystem>> getByTenantId(@PathVariable Long tenantId) {
+        return new ResponseEntity<>(trackedSystemService.findByTenantId(tenantId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<TrackedSystem> post(@Valid @RequestBody TrackedSystem trackedSystem){
-        return new ResponseEntity<TrackedSystem>(_trackedSystemService.save(trackedSystem), HttpStatus.CREATED);
+    @ApiOperation("Create a tracked system")
+	@ApiResponses(value = {@ApiResponse(code = 201, message="Tracked system created"), @ApiResponse(code = 409, message="Tracked system already exist")})
+	public ResponseEntity<TrackedSystem> post(@Valid @RequestBody TrackedSystem trackedSystem){
+        return new ResponseEntity<TrackedSystem>(trackedSystemService.save(trackedSystem), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<TrackedSystem> put(@Valid @RequestBody TrackedSystem trackedSystem){
-        return new ResponseEntity<TrackedSystem>(_trackedSystemService.put(trackedSystem), HttpStatus.OK);
+    @ApiOperation("Update a tracked system")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Tracked system updated"), @ApiResponse(code = 404, message="Tracked system doesn't exist")})
+	public ResponseEntity<TrackedSystem> put(@Valid @RequestBody TrackedSystem trackedSystem){
+        return new ResponseEntity<TrackedSystem>(trackedSystemService.put(trackedSystem), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-        _trackedSystemService.delete(id);
+    @ApiOperation("Delete a tracked system by id")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Tracked system exists"), @ApiResponse(code = 404, message="Tracked system doesn't exist")})
+	public ResponseEntity<Boolean> delete(@PathVariable Long id){
+        trackedSystemService.delete(id);
+        return new ResponseEntity<Boolean>(true,HttpStatus.OK);
     }
 
     @DeleteMapping
-    public void delete(@Valid @RequestBody TrackedSystem trackedSystem){
-        _trackedSystemService.delete(trackedSystem);
+    @ApiOperation("Delete a tracked system")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Tracked system exists"), @ApiResponse(code = 404, message="Tracked system doesn't exist")})
+	public ResponseEntity<Boolean> delete(@Valid @RequestBody TrackedSystem trackedSystem){
+        trackedSystemService.delete(trackedSystem);
+        return new ResponseEntity<Boolean>(true,HttpStatus.OK);
     }
 
 }

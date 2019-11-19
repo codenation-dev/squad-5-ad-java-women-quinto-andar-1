@@ -3,6 +3,8 @@ package br.com.quintoandar.sakuraerrorcaptor.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,23 +27,29 @@ public class ArchiveController {
 	@ApiOperation("Search for an archived log by id")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="Archive exists"), @ApiResponse(code = 404, message="Archive doesn't exist")})
 	@GetMapping("/{id}")
-	public Archive findbyId(@PathVariable Long id) {
+	public ResponseEntity<Archive> findbyId(@PathVariable Long id) {
 		Archive a = archiveService.findById(id).orElse(new Archive());
-		return a;
+		return new ResponseEntity<Archive>(a, HttpStatus.OK);
 	}
 	
+	@ApiOperation("Search all archived logs")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Archives exists"), @ApiResponse(code = 404, message="Archives doesn't exist")})
 	@GetMapping
-	public List<Archive> findAll() {
-		return archiveService.findAll();
+	public ResponseEntity<List<Archive>> findAll() {
+		return new ResponseEntity<List<Archive>>(archiveService.findAll(), HttpStatus.OK);
 	}
 	
+	@ApiOperation("Create a log from an archived log")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Archives exists"), @ApiResponse(code = 404, message="Archives doesn't exist")})
 	@GetMapping("/{id}/log")
-	public boolean sendArchiveToLog(@PathVariable Long id) {
-		return archiveService.sendArchiveToLog(id);
+	public ResponseEntity<Boolean> sendArchiveToLog(@PathVariable Long id) {
+		return new ResponseEntity<Boolean>(archiveService.sendArchiveToLog(id), HttpStatus.OK);
 	}
 	
+	@ApiOperation("Delete an archive")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Archives exists"), @ApiResponse(code = 404, message="Archives doesn't exist")})
 	@DeleteMapping("/{id}")
-	public boolean delete(@PathVariable Long id) {
-		return archiveService.deleteById(id);
+	public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+		return new ResponseEntity<Boolean>(archiveService.deleteById(id), HttpStatus.OK);
 	}
 }

@@ -8,10 +8,15 @@ import javax.validation.Valid;
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
 import br.com.quintoandar.sakuraerrorcaptor.mapper.LogOccurrenceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogOccurrenceService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/logOccurrence")
@@ -22,20 +27,26 @@ public class LogOccurrenceController {
 	private LogOccurrenceMapper mapper = new LogOccurrenceMapper();
 	
 	@GetMapping
-	public List<LogDetailsDTO> findAll(){
+	@ApiOperation("Search all logOccurrences")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
+	public ResponseEntity<List<LogDetailsDTO>> findAll(){
 		List<LogOccurrence> logs =  logOccurrenceService.findAll();
 		List<LogDetailsDTO> logsDTO = mapper.map(logs);
 
-		return logsDTO;
+		return new ResponseEntity<>(logsDTO, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<LogOccurrence> findById(@PathVariable Long id){
-		return logOccurrenceService.findById(id);
+	@ApiOperation("Search a logOccurrence by id")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
+	public ResponseEntity<Optional<LogOccurrence>> findById(@PathVariable Long id){
+		return new ResponseEntity<>(logOccurrenceService.findById(id), HttpStatus.OK);
 	}
 
 	@GetMapping("environment/{environment}")
-	public List<LogDetailsDTO> findByFilter(@PathVariable String environment,
+	@ApiOperation("Search logOccurrences by Filter")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
+	public ResponseEntity<List<LogDetailsDTO>> findByFilter(@PathVariable String environment,
                                             @RequestParam(name="level", required = false) String level,
                                             @RequestParam(name="description", required = false) String title,
                                             @RequestParam(name="origin", required = false) String location,
@@ -43,17 +54,21 @@ public class LogOccurrenceController {
 		List<LogOccurrence> logs =  logOccurrenceService.findByFilter(environment, level, title, location, orderBy);
 		List<LogDetailsDTO> logsDTO = mapper.map(logs);
 
-		return logsDTO;
+		return new ResponseEntity<>(logsDTO, HttpStatus.OK);
 	}
 
 	@PostMapping
-	public LogOccurrence save(@Valid @RequestBody LogOccurrence logOccurrence) {
-		return logOccurrenceService.save(logOccurrence);
+	@ApiOperation("Create a logOccurrence")
+	@ApiResponses(value = {@ApiResponse(code = 201, message="logOccurrence created"), @ApiResponse(code = 409, message="logOccurrence already exist")})
+	public ResponseEntity<LogOccurrence> save(@Valid @RequestBody LogOccurrence logOccurrence) {
+		return new ResponseEntity<>(logOccurrenceService.save(logOccurrence), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
+	@ApiOperation("Delete a logOccurrence")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
+	public ResponseEntity<Boolean> delete(@PathVariable Long id) {
         logOccurrenceService.delete(id);
-	}
-	
+        return new ResponseEntity<>(true, HttpStatus.OK);
+	}	
 }
