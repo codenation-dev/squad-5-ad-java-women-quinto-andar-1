@@ -1,11 +1,14 @@
 package br.com.quintoandar.sakuraerrorcaptor.mapper;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
+import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrenceDTO;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Tuple;
 
 public class LogOccurrenceMapper {
 
@@ -55,4 +58,27 @@ public class LogOccurrenceMapper {
 
         return logsDTO;
     };
+    
+    public List<LogOccurrenceDTO> mapTupleToDTO(List<Tuple> tuples){
+    	List<LogOccurrenceDTO> logOccurrencesDto = new ArrayList<LogOccurrenceDTO>();
+    	
+    	for (Tuple t: tuples) {
+			logOccurrencesDto.add(mapTupleToDTO(t));
+		}
+    	return logOccurrencesDto;
+    }
+    
+    public LogOccurrenceDTO mapTupleToDTO(Tuple tuple){
+    	LogOccurrenceDTO logOccurrenceDto = new LogOccurrenceDTO(
+    			Long.parseLong(tuple.get("event").toString()), 
+    			tuple.get("level").toString(), 
+    			tuple.get("environment").toString(), 
+    			tuple.get("title").toString(), 
+    			tuple.get("detail").toString(), 
+    			Long.parseLong(tuple.get("log_id").toString()), 
+    			Long.parseLong(tuple.get("occurrence_id").toString()), 
+    			tuple.get("location").toString());
+    	
+    	return logOccurrenceDto;
+    }
 }

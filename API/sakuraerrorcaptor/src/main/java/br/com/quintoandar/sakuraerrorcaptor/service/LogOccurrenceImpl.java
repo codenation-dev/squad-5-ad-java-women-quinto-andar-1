@@ -4,11 +4,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.TypedQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
+import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrenceDTO;
+import br.com.quintoandar.sakuraerrorcaptor.mapper.LogOccurrenceMapper;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 import br.com.quintoandar.sakuraerrorcaptor.model.Occurrence;
@@ -82,7 +86,7 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 			logOccurrence.setLog(log);
 			logOccurrence.setOccurrence(occurrence);
 			logOccurrence.setOccurredIn(occurredIn);
-			
+
 			return logOccurrenceRepository.save(logOccurrence);
 		}
 		return logOccurrenceRepository.findById(id).get();
@@ -92,5 +96,11 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	public void delete(Long id) {
 		logOccurrenceRepository.deleteById(id);
 	}
-	
+
+	@Override
+	public List<LogOccurrenceDTO> countLogOccurrence(Long logId, Long occurrenceId) {
+		LogOccurrenceMapper mapper = new LogOccurrenceMapper();
+		return mapper.mapTupleToDTO(logOccurrenceRepository.countLogOccurrence(logId, occurrenceId));
+	}
+
 }

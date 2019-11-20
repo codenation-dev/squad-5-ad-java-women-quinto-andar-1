@@ -4,3 +4,6 @@ INSERT INTO public.tracked_system(location, name, token, tenant_id) VALUES ('127
 INSERT INTO public.occurrence(detail, title) VALUES ('Full detail of our test title','Our test title');
 INSERT INTO public.log(environment, level, tracked_system_id) VALUES ( 'DEV', 'ERROR', 1);
 INSERT INTO public.log_occurrence(occurred_in, log_id, occurrence_id) VALUES ('2019-01-01T08:01:00', 1, 1);
+INSERT INTO public.log_occurrence(occurred_in, log_id, occurrence_id) VALUES ('2019-01-02T08:01:00', 1, 1);
+INSERT INTO public.log_occurrence(occurred_in, log_id, occurrence_id) VALUES ('2019-01-03T08:01:00', 1, 1);
+INSERT INTO public.log_occurrence(occurred_in, log_id, occurrence_id) VALUES ('2019-01-03T08:01:00', 1, 1);
