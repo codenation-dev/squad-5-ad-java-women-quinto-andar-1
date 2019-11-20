@@ -71,7 +71,7 @@ public class SystemUserController {
 	@ApiResponses(value = {@ApiResponse(code = 200, message="User removed"), @ApiResponse(code = 404, message="User doesn't exist")})
 	public ResponseEntity<Boolean> deletar(@PathVariable Long id) {
 		systemUserServices.deletar(id);
-		return new ResponseEntity<>(true,HttpStatus.OK);
+		return new ResponseEntity<Boolean>(true,HttpStatus.OK);
 	}
 
 	@PutMapping
@@ -79,6 +79,6 @@ public class SystemUserController {
 	@ApiResponses(value = {@ApiResponse(code = 200, message="User removed"), @ApiResponse(code = 404, message="User doesn't exist")})
 	public ResponseEntity<Boolean> alterar(@Valid @RequestBody SystemUser systemUser) {
 		systemUserServices.alterar(systemUser);
-		return new ResponseEntity<>(true,HttpStatus.OK);
+		return new ResponseEntity<Boolean>(true,HttpStatus.OK);
 	}
 }
