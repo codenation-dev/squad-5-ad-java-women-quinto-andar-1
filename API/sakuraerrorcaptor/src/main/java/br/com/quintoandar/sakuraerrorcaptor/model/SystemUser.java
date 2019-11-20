@@ -1,5 +1,6 @@
 package br.com.quintoandar.sakuraerrorcaptor.model;
 
+import java.util.Base64;
 import java.util.Date;
 
 import javax.persistence.Entity;
