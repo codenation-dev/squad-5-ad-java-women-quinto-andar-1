@@ -15,6 +15,7 @@ public class SignInMapper {
 				systemUser.getName(),
 				systemUser.getEmail(),
 				systemUser.getPassword(),
+				systemUser.getToken(),
 				systemUser.getTenant()
         );
 
@@ -48,7 +49,7 @@ public class SignInMapper {
     			signInDTO.getEmail(),
     			signInDTO.getPassword(),
     			signInDTO.getTenant(),
-    			"",
+    			signInDTO.getToken(),
     			false,
     			null,
     			true,
