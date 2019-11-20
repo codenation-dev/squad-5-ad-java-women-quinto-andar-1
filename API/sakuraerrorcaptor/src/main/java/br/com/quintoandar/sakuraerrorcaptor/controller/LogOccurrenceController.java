@@ -2,10 +2,10 @@ package br.com.quintoandar.sakuraerrorcaptor.controller;
 
 import java.util.Optional;
 import java.util.List;
-
 import javax.validation.Valid;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
+import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrenceDTO;
 import br.com.quintoandar.sakuraerrorcaptor.mapper.LogOccurrenceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,4 +71,11 @@ public class LogOccurrenceController {
         logOccurrenceService.delete(id);
         return new ResponseEntity<>(true, HttpStatus.OK);
 	}	
+	
+	@GetMapping("/{logId}/{occurrenceId}")
+	@ApiOperation("Search a logOccurrence by id")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
+	public ResponseEntity<List<LogOccurrenceDTO>> count(@PathVariable Long logId, @PathVariable Long occurrenceId){
+		return new ResponseEntity<>(logOccurrenceService.countLogOccurrence(logId, occurrenceId), HttpStatus.OK);
+	}
 }
