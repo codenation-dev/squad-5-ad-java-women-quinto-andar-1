@@ -22,9 +22,12 @@ public class LogOccurrence {
     @ManyToOne
     private Occurrence occurrence;
 
-    @NotEmpty(message = "This field is mandatory")
+	@NotEmpty(message = "This field is mandatory")
     @CreatedDate
     private LocalDateTime occurredIn;
+
+	public LogOccurrence() {
+	}
 
 	public Long getId() {
 		return id;
