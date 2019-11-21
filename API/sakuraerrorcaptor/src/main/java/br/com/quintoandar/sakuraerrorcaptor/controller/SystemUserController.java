@@ -1,6 +1,8 @@
 package br.com.quintoandar.sakuraerrorcaptor.controller;
 
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.quintoandar.sakuraerrorcaptor.dto.UserDTO;
 import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.SystemUserService;
 import io.swagger.annotations.ApiOperation;
@@ -26,15 +29,6 @@ public class SystemUserController {
 
 	@Autowired
 	private SystemUserService systemUserServices;
-
-	/*
-	@GetMapping("/{id}")
-	@ApiOperation("Search an user by id")
-	@ApiResponses(value = {@ApiResponse(code = 200, message="User exists"), @ApiResponse(code = 404, message="User doesn't exist")})
-	public ResponseEntity<SystemUser> findById(@PathVariable Long id){
-		return new ResponseEntity<SystemUser>(systemUserServices.findById(id).orElseThrow(() -> new SystemUserNotFound(id)), HttpStatus.OK);
-	}
-	*/
 
 	@GetMapping("/{email}")
 	@ApiOperation("Search an user by email")
@@ -59,26 +53,33 @@ public class SystemUserController {
 		return new ResponseEntity<SystemUser>(HttpStatus.OK);
 	}
 
-	@GetMapping
 	@ApiOperation("Search all users")
-	@ApiResponses(value = {@ApiResponse(code = 200, message="User exists"), @ApiResponse(code = 404, message="User doesn't exist")})
-	public ResponseEntity<Iterable<SystemUser>> pesquisar() {
-		return new ResponseEntity<>(systemUserServices.pesquisar(),HttpStatus.OK);
+	@ApiResponses(value = {@ApiResponse(code = 200, message="User exists"), @ApiResponse(code = 404, message="User not found")})
+	@GetMapping
+	public ResponseEntity<List<UserDTO>> findAll() {
+		return new ResponseEntity<List<UserDTO>>(systemUserServices.findAll(), HttpStatus.OK);
+	}
+	
+	@ApiOperation("Search an user by id")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="User exists"), @ApiResponse(code = 404, message="User not found")})
+	@GetMapping("/{id}")
+	public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+		return new ResponseEntity<UserDTO>(systemUserServices.findDTOById(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	@ApiOperation("Delete an user by id")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="User removed"), @ApiResponse(code = 404, message="User doesn't exist")})
-	public ResponseEntity<Boolean> deletar(@PathVariable Long id) {
-		systemUserServices.deletar(id);
+	public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+		systemUserServices.delete(id);
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 
 	@PutMapping
-	@ApiOperation("Delete an user")
-	@ApiResponses(value = {@ApiResponse(code = 200, message="User removed"), @ApiResponse(code = 404, message="User doesn't exist")})
-	public ResponseEntity<Boolean> alterar(@Valid @RequestBody SystemUser systemUser) {
-		systemUserServices.alterar(systemUser);
+	@ApiOperation("Alter an user data")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="User modified"), @ApiResponse(code = 404, message="User doesn't exist")})
+	public ResponseEntity<Boolean> alter(@Valid @RequestBody SystemUser systemUser) {
+		systemUserServices.alter(systemUser);
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 }
