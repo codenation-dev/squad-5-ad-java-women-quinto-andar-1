@@ -43,5 +43,12 @@ class SakuraErrorCaptorControllerAdvice {
     public String handleTenantNameAlreadyInUseException(TenantNameAlreadyInUse ex) {
         return ex.getMessage();
     }
+    
+    @ExceptionHandler(EnvironmentNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String handleEnvironmentNotFoundException(EnvironmentNotFound ex) {
+        return ex.getMessage();
+    }
 
 }
