@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
-import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrenceDTO;
+import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
 import br.com.quintoandar.sakuraerrorcaptor.mapper.LogOccurrenceMapper;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
@@ -23,7 +23,8 @@ import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogOccurrenceServ
 public class LogOccurrenceImpl implements LogOccurrenceService{
 
 	@Autowired
-	LogOccurrenceRepository logOccurrenceRepository;
+	private LogOccurrenceRepository logOccurrenceRepository;
+	private LogOccurrenceMapper mapper = new LogOccurrenceMapper();
 
 	@Override
 	public List<LogOccurrence> findAll() {
@@ -98,9 +99,42 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	}
 
 	@Override
-	public List<LogOccurrenceDTO> countLogOccurrence(Long logId, Long occurrenceId) {
-		LogOccurrenceMapper mapper = new LogOccurrenceMapper();
-		return mapper.mapTupleToDTO(logOccurrenceRepository.countLogOccurrence(logId, occurrenceId));
+	public List<LogDetailsDTO> countLogOccurrenceByLogIdAndOccurrenceId(Long logId, Long occurrenceId) {
+		return mapper.mapTupleToDTO(logOccurrenceRepository.countLogOccurrencebyLogIdAndOccurrenceId(logId, occurrenceId));
 	}
 
+	@Override
+	public List<LogDetailsDTO> countLogOccurrence(Optional<String> environment, Optional<String> filterBy,
+			Optional<String> filter, Optional<String> orderBy) {
+		
+		String queryFilter = "";
+		String queryFilterBy = "";
+		String queryEnvironment = "";
+		
+		if (environment.isPresent()) {			
+			queryEnvironment = environment.get();
+			Environment.isFound(queryEnvironment);
+		}
+		
+		if(filterBy.isPresent() && filter.isPresent()) {
+			queryFilter = filter.get();
+			queryFilterBy = filterBy.get();
+		}
+		
+		if (orderBy.isPresent() && orderBy.equals("level")) {
+			return mapper.mapTupleToDTO(logOccurrenceRepository.countLogOccurrenceOrderByLevel(queryEnvironment, queryFilterBy, queryFilter));
+		}
+		return mapper.mapTupleToDTO(logOccurrenceRepository.countLogOccurrenceOrderByCount(queryEnvironment, queryFilterBy, queryFilter));
+	}
+
+	@Override
+	public List<LogDetailsDTO> countAllLogOccurrence() {
+		return mapper.mapTupleToDTO(logOccurrenceRepository.countLogOccurrenceOrderByLevel("", "", ""));
+	}
+
+	@Override
+	@Transactional
+	public void deleteByLogIdAndOccurrenceId(Long logId, Long occurrenceId) {
+		logOccurrenceRepository.deleteByLogIdAndOccurrenceId(logId, occurrenceId);
+	}
 }

@@ -1,9 +1,11 @@
 package br.com.quintoandar.sakuraerrorcaptor.mapper;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
-import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrenceDTO;
+import br.com.quintoandar.sakuraerrorcaptor.dto.UserDTO;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
+import br.com.quintoandar.sakuraerrorcaptor.util.LocalDateTimeConverter;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class LogOccurrenceMapper {
                 logOccurrence.getOccurrence().getTitle(),
                 logOccurrence.getOccurrence().getDetail(),
                 //TODO: Verificar count
-                0,
+                0L,
                 LocalDateTime.now(),
                 logOccurrence.getLog().getTrackedSystem().getToken(),
                 //TODO: Verificar origin do user
@@ -46,7 +48,7 @@ public class LogOccurrenceMapper {
                     item.getOccurrence().getTitle(),
                     item.getOccurrence().getDetail(),
                     //TODO: Verificar count
-                    0,
+                    0L,
                     LocalDateTime.now(),
                     item.getLog().getTrackedSystem().getToken(),
                     //TODO: Verificar origin do user
@@ -59,8 +61,8 @@ public class LogOccurrenceMapper {
         return logsDTO;
     };
     
-    public List<LogOccurrenceDTO> mapTupleToDTO(List<Tuple> tuples){
-    	List<LogOccurrenceDTO> logOccurrencesDto = new ArrayList<LogOccurrenceDTO>();
+    public List<LogDetailsDTO> mapTupleToDTO(List<Tuple> tuples){
+    	List<LogDetailsDTO> logOccurrencesDto = new ArrayList<LogDetailsDTO>();
     	
     	for (Tuple t: tuples) {
 			logOccurrencesDto.add(mapTupleToDTO(t));
@@ -68,16 +70,24 @@ public class LogOccurrenceMapper {
     	return logOccurrencesDto;
     }
     
-    public LogOccurrenceDTO mapTupleToDTO(Tuple tuple){
-    	LogOccurrenceDTO logOccurrenceDto = new LogOccurrenceDTO(
-    			Long.parseLong(tuple.get("event").toString()), 
-    			tuple.get("level").toString(), 
-    			tuple.get("environment").toString(), 
-    			tuple.get("title").toString(), 
-    			tuple.get("detail").toString(), 
+    public LogDetailsDTO mapTupleToDTO(Tuple tuple){
+    	UserDTO user = new UserDTO();
+    	
+    	LocalDateTimeConverter dateConverter = new LocalDateTimeConverter();
+    	LocalDateTime maxDate = dateConverter.convertToEntityAttribute((Timestamp)tuple.get("occurred_in"));
+    	
+    	LogDetailsDTO logOccurrenceDto = new LogDetailsDTO(
     			Long.parseLong(tuple.get("log_id").toString()), 
-    			Long.parseLong(tuple.get("occurrence_id").toString()), 
-    			tuple.get("location").toString());
+    			Long.parseLong(tuple.get("occurrence_id").toString()),
+    			tuple.get("level").toString(), 
+    			tuple.get("environment").toString(),
+    			tuple.get("location").toString(),
+    			tuple.get("title").toString(), 
+    			tuple.get("detail").toString(),
+    			Long.parseLong(tuple.get("event").toString()),
+    			maxDate,
+    			tuple.get("token").toString(),
+    			user);
     	
     	return logOccurrenceDto;
     }

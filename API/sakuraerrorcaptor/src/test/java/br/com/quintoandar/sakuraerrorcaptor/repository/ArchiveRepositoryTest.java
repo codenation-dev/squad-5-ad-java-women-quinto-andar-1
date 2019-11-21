@@ -2,7 +2,6 @@ package br.com.quintoandar.sakuraerrorcaptor.repository;
 
 import static org.junit.Assert.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class ArchiveRepositoryTest {
 	@Test
 	public void saveTest() {
 		ArchiveJson json = new ArchiveJson();
-		OccurrenceJson oJson = new OccurrenceJson("test","save test", new ArrayList<LogOccurrenceJson>());
+		OccurrenceJson oJson = new OccurrenceJson(1L,"test","save test", new ArrayList<LogOccurrenceJson>());
 		oJson.setId(1L);
 		List<OccurrenceJson> listOccurrence = new ArrayList<OccurrenceJson>();
 		listOccurrence.add(oJson);

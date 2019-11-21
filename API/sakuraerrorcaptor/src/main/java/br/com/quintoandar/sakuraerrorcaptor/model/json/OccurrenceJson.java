@@ -13,7 +13,8 @@ public class OccurrenceJson implements Serializable {
 	private String detail;
 	private List<LogOccurrenceJson> logOccurrences;
 	
-	public OccurrenceJson(String title, String detail, List<LogOccurrenceJson> logOccurrences) {
+	public OccurrenceJson(Long id,String title, String detail, List<LogOccurrenceJson> logOccurrences) {
+		this.id=id;
 		this.title = title;
 		this.detail = detail;
 		this.logOccurrences = logOccurrences;

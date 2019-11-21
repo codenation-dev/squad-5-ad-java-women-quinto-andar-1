@@ -5,8 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
-import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrenceDTO;
-import br.com.quintoandar.sakuraerrorcaptor.mapper.LogOccurrenceMapper;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.ArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogOccurrenceService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -28,16 +27,12 @@ public class LogOccurrenceController {
 	private LogOccurrenceService logOccurrenceService;
 	@Autowired
 	private ArchiveService archiveService;
-	private LogOccurrenceMapper mapper = new LogOccurrenceMapper();
 	
 	@GetMapping
 	@ApiOperation("Search all logOccurrences")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
 	public ResponseEntity<List<LogDetailsDTO>> findAll(){
-		List<LogOccurrence> logs =  logOccurrenceService.findAll();
-		List<LogDetailsDTO> logsDTO = mapper.map(logs);
-
-		return new ResponseEntity<>(logsDTO, HttpStatus.OK);
+		return new ResponseEntity<>(logOccurrenceService.countAllLogOccurrence(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
@@ -47,6 +42,7 @@ public class LogOccurrenceController {
 		return new ResponseEntity<>(logOccurrenceService.findById(id), HttpStatus.OK);
 	}
 
+	/*
 	@GetMapping("environment/{environment}")
 	@ApiOperation("Search logOccurrences by Filter")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
@@ -59,6 +55,26 @@ public class LogOccurrenceController {
 		List<LogDetailsDTO> logsDTO = mapper.map(logs);
 
 		return new ResponseEntity<>(logsDTO, HttpStatus.OK);
+		*/
+	@GetMapping("environment/{environment}")
+	@ApiOperation("Search logOccurrences by Filter")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
+	public ResponseEntity<List<LogDetailsDTO>> findByFilter(
+			@ApiParam(value = "Environment to search logs. Could be DEV, HOMOLOG or PRODUCTION.")
+			@PathVariable String environment,
+			@ApiParam(value = "Optional parameter that indicates which field to filter by. Options: level, description or origin.")
+			@RequestParam(name="filterBy", required = false) Optional<String> filterBy,
+			@ApiParam(value = "Optional parameter with the filter itself. It's required when a 'filterBy' is selected.")
+			@RequestParam(name="filter", required = false) Optional<String> filter,
+			@ApiParam(value = "Optional parameter to order the result. Options: level, frequency")
+			@RequestParam(name="orderBy", required = false) Optional<String> orderBy){
+			
+		return new ResponseEntity<>(logOccurrenceService.countLogOccurrence(
+				Optional.of(environment),
+				filterBy,
+				filter,
+				orderBy)
+		, HttpStatus.OK);
 	}
 
 	@PostMapping
@@ -77,10 +93,14 @@ public class LogOccurrenceController {
 	}	
 	
 	@GetMapping("/{logId}/{occurrenceId}")
-	@ApiOperation("Search a logOccurrence by id")
+	@ApiOperation("Search all logOccurrences by Log id and Occurrence id")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
-	public ResponseEntity<List<LogOccurrenceDTO>> count(@PathVariable Long logId, @PathVariable Long occurrenceId){
-		return new ResponseEntity<>(logOccurrenceService.countLogOccurrence(logId, occurrenceId), HttpStatus.OK);
+	public ResponseEntity<List<LogDetailsDTO>> getLogOccurrenceByLogIdAndOccurrenceId(
+			@ApiParam(value = "The Log id.")
+			@PathVariable Long logId, 
+			@ApiParam(value = "The Occurrence id.")
+			@PathVariable Long occurrenceId){
+		return new ResponseEntity<>(logOccurrenceService.countLogOccurrenceByLogIdAndOccurrenceId(logId, occurrenceId), HttpStatus.OK);
 	}
 
 	@ApiOperation("Send a logOccurrence to archive")

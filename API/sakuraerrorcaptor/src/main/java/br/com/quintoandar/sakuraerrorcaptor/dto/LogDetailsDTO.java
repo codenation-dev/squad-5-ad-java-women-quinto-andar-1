@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class LogDetailsDTO {
     private Long idLog;
+    
     private Long idOccurrence;
 
     private String environment;
@@ -16,17 +17,21 @@ public class LogDetailsDTO {
 
     private String details;
 
-    private Integer countEvent;
+    private Long countEvent;
 
-    private LocalDateTime dateLogger;
+    private LocalDateTime maxOccurredIn;
 
     private String systemToken;
 
     private UserDTO user;
 
+    public LogDetailsDTO() {
+    	
+    }
+    
     public LogDetailsDTO(Long idLog, Long idOccurrence, String level,
                          String environment, String origin, String titleLog,
-                         String details, Integer countEvent, LocalDateTime dateLogger,
+                         String details, Long countEvent, LocalDateTime dateLogger,
                          String systemToken, UserDTO user) {
         this.idLog = idLog;
         this.idOccurrence = idOccurrence;
@@ -36,7 +41,7 @@ public class LogDetailsDTO {
         this.titleLog = titleLog;
         this.details = details;
         this.countEvent = countEvent;
-        this.dateLogger = dateLogger;
+        this.maxOccurredIn = dateLogger;
         this.systemToken = systemToken;
         this.user = user;
     }
@@ -97,20 +102,12 @@ public class LogDetailsDTO {
         this.details = details;
     }
 
-    public Integer getCountEvent() {
+    public Long getCountEvent() {
         return countEvent;
     }
 
-    public void setCountEvent(Integer countEvent) {
+    public void setCountEvent(Long countEvent) {
         this.countEvent = countEvent;
-    }
-
-    public LocalDateTime getDateLogger() {
-        return dateLogger;
-    }
-
-    public void setDateLogger(LocalDateTime dateLogger) {
-        this.dateLogger = dateLogger;
     }
 
     public String getSystemToken() {
@@ -128,4 +125,12 @@ public class LogDetailsDTO {
     public void setUser(UserDTO user) {
         this.user = user;
     }
+
+	public LocalDateTime getMaxOccurredIn() {
+		return maxOccurredIn;
+	}
+
+	public void setMaxOccurredIn(LocalDateTime maxOccurredIn) {
+		this.maxOccurredIn = maxOccurredIn;
+	}
 }
