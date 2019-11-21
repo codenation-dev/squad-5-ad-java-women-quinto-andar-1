@@ -7,6 +7,4 @@ import br.com.quintoandar.sakuraerrorcaptor.dto.UserDTO;
 
 public interface LoginService {
 	public SignInDTO save(SignInDTO signInDTO);
-	public UserDTO findById(Long id);
-	public List<UserDTO> findAll();
 }

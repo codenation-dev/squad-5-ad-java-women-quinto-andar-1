@@ -1,5 +1,7 @@
 package br.com.quintoandar.sakuraerrorcaptor.mapper;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,16 @@ public class SignInMapper {
         return signInDTO;
     };
     
+    public List<UserDTO> mapUserDto(List<SystemUser> systemUsers){
+    	List<UserDTO> userDTO = new ArrayList<>();
+
+        for(SystemUser user : systemUsers){
+        	userDTO.add(mapUserDto(user));
+        }
+        return userDTO;
+    }
+        
+    
     public List<SignInDTO> map(List<SystemUser> systemUsers){
     	List<SignInDTO> signInDTOs = new ArrayList<>();
 
@@ -51,7 +63,7 @@ public class SignInMapper {
     			signInDTO.getTenant(),
     			signInDTO.getToken(),
     			false,
-    			null,
+    			Date.valueOf(LocalDate.now()),
     			true,
     			null    			
         );

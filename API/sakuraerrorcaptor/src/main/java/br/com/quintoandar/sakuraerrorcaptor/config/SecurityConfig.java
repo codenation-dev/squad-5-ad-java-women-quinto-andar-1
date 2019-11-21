@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.LoginUserDTO;
+import br.com.quintoandar.sakuraerrorcaptor.error.SystemUserNotFound;
 import br.com.quintoandar.sakuraerrorcaptor.repository.SystemUserRepository;
 
 @EnableWebSecurity
@@ -33,6 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void authenticationManager(AuthenticationManagerBuilder builder, SystemUserRepository systemUserRepository) throws Exception {
-	    builder.userDetailsService(email -> new LoginUserDTO(systemUserRepository.findByEmail(email)));
+	    builder.userDetailsService(email -> new LoginUserDTO(systemUserRepository.findByEmail(email).orElseThrow(()->new SystemUserNotFound(email) )));
 	}
 }

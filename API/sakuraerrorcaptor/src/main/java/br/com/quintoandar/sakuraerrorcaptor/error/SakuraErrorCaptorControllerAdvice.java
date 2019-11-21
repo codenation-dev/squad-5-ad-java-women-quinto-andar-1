@@ -50,5 +50,12 @@ class SakuraErrorCaptorControllerAdvice {
     public String handleEnvironmentNotFoundException(EnvironmentNotFound ex) {
         return ex.getMessage();
     }
+    
+    @ExceptionHandler(SystemUserAlreadyExists.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseBody
+    public String handleSystemUserAlreadyExistsException(SystemUserAlreadyExists ex) {
+        return ex.getMessage();
+    }
 
 }

@@ -19,8 +19,7 @@ public class SignInDTO {
 		this.email = email;
 		this.password = password;
 		this.token = Base64.getEncoder().encodeToString(new String (getEmail()+":"+getPassword()).getBytes());
-		this.tenant = tenant;
-		
+		this.tenant = tenant;		
 	}
 	
 	public Long getId() {
