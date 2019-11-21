@@ -110,14 +110,6 @@ public class LogDetailsDTO {
         this.countEvent = countEvent;
     }
 
-    public LocalDateTime getDateLogger() {
-        return maxOccurredIn;
-    }
-
-    public void setDateLogger(LocalDateTime dateLogger) {
-        this.maxOccurredIn = dateLogger;
-    }
-
     public String getSystemToken() {
         return systemToken;
     }
@@ -133,4 +125,12 @@ public class LogDetailsDTO {
     public void setUser(UserDTO user) {
         this.user = user;
     }
+
+	public LocalDateTime getMaxOccurredIn() {
+		return maxOccurredIn;
+	}
+
+	public void setMaxOccurredIn(LocalDateTime maxOccurredIn) {
+		this.maxOccurredIn = maxOccurredIn;
+	}
 }

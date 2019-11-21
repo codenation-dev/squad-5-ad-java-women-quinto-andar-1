@@ -15,6 +15,7 @@ public interface LogOccurrenceService {
 	public Optional <LogOccurrence> findById(Long id);
 	public List<LogOccurrence> findAll();
 	public void delete (Long id);
+	public void deleteByLogIdAndOccurrenceId(Long logId, Long occurrenceId);
 	public LogOccurrence saveFromArchive(Long id,Log log, Occurrence occurrence, LocalDateTime occurredIn);
 	public LogOccurrence save (LogOccurrence logoccurrence);
 	public List<LogOccurrence> findByLogIdAndOccurrenceId(Long logId, Long occurrenceId);

@@ -2,6 +2,7 @@ package br.com.quintoandar.sakuraerrorcaptor.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -14,15 +15,15 @@ public class LogOccurrence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "This field is mandatory")
+    @NotNull
     @ManyToOne
     private Log log;
 
-    @NotEmpty(message = "This field is mandatory")
+    @NotNull
     @ManyToOne
     private Occurrence occurrence;
 
-	@NotEmpty(message = "This field is mandatory")
+    @NotNull
     @CreatedDate
     private LocalDateTime occurredIn;
 

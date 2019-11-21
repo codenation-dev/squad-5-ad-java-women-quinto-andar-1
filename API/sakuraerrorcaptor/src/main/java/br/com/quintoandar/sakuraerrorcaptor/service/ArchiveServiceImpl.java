@@ -14,7 +14,6 @@ import br.com.quintoandar.sakuraerrorcaptor.model.Archive;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 import br.com.quintoandar.sakuraerrorcaptor.model.Occurrence;
-import br.com.quintoandar.sakuraerrorcaptor.model.Tenant;
 import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.ArchiveJson;
 import br.com.quintoandar.sakuraerrorcaptor.model.json.LogOccurrenceJson;
@@ -92,7 +91,7 @@ public class ArchiveServiceImpl implements ArchiveService{
 		
 		try {
 			save(archiveJson);
-			logOccurrenceService.delete(logOccurrenceId);	
+			logOccurrenceService.deleteByLogIdAndOccurrenceId(log.getId(), occurrence.getId());	
 			return true;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -123,7 +122,7 @@ public class ArchiveServiceImpl implements ArchiveService{
 		}
 		
 		List<OccurrenceJson> occurrences = new ArrayList<OccurrenceJson>();
-		occurrences.add(new OccurrenceJson(occurrence.getTitle(), occurrence.getDetail(),logOccurrencesJson));
+		occurrences.add(new OccurrenceJson(occurrence.getId(),occurrence.getTitle(), occurrence.getDetail(),logOccurrencesJson));
 		archiveJson.setOccurrences(occurrences);
 		
 		return archiveJson;

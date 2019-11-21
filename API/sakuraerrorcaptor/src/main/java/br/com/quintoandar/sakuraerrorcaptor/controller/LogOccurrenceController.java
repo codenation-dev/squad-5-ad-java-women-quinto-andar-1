@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogOccurrenceService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -58,13 +59,16 @@ public class LogOccurrenceController {
 	@GetMapping("environment/{environment}")
 	@ApiOperation("Search logOccurrences by Filter")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
-	public ResponseEntity<List<LogDetailsDTO>> findByFilter(@PathVariable String environment,
-                                            @RequestParam(name="filterBy", required = false) Optional<String> filterBy,
-                                            @RequestParam(name="filter", required = false) Optional<String> filter,
-                                            @RequestParam(name="orderBy", required = false) Optional<String> orderBy){
+	public ResponseEntity<List<LogDetailsDTO>> findByFilter(
+			@ApiParam(value = "Environment to search logs. Could be DEV, HOMOLOG or PRODUCTION.")
+			@PathVariable String environment,
+			@ApiParam(value = "Optional parameter that indicates which field to filter by. Options: level, description or origin.")
+			@RequestParam(name="filterBy", required = false) Optional<String> filterBy,
+			@ApiParam(value = "Optional parameter with the filter itself. It's required when a 'filterBy' is selected.")
+			@RequestParam(name="filter", required = false) Optional<String> filter,
+			@ApiParam(value = "Optional parameter to order the result. Options: level, frequency")
+			@RequestParam(name="orderBy", required = false) Optional<String> orderBy){
 			
-		System.out.println("filterBy:"+filterBy);
-		System.out.println("filter:"+filter);
 		return new ResponseEntity<>(logOccurrenceService.countLogOccurrence(
 				Optional.of(environment),
 				filterBy,
@@ -91,7 +95,11 @@ public class LogOccurrenceController {
 	@GetMapping("/{logId}/{occurrenceId}")
 	@ApiOperation("Search all logOccurrences by Log id and Occurrence id")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
-	public ResponseEntity<List<LogDetailsDTO>> count(@PathVariable Long logId, @PathVariable Long occurrenceId){
+	public ResponseEntity<List<LogDetailsDTO>> getLogOccurrenceByLogIdAndOccurrenceId(
+			@ApiParam(value = "The Log id.")
+			@PathVariable Long logId, 
+			@ApiParam(value = "The Occurrence id.")
+			@PathVariable Long occurrenceId){
 		return new ResponseEntity<>(logOccurrenceService.countLogOccurrenceByLogIdAndOccurrenceId(logId, occurrenceId), HttpStatus.OK);
 	}
 

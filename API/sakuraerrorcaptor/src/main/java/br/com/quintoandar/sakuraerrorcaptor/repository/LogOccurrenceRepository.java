@@ -25,6 +25,8 @@ public interface LogOccurrenceRepository extends JpaRepository<LogOccurrence, Lo
 	public List<LogOccurrence> findByLogEnvironmentAndOccurrenceTitle(Environment environment, String title);
 	public List<LogOccurrence> findByLogEnvironmentAndLogTrackedSystemLocation(Environment environment, String location);
 
+	public void deleteByLogIdAndOccurrenceId(Long logId, Long occurrenceId);
+
 	@Query(nativeQuery = true, value = "Select count(*) as event,max(lo.occurred_in) as occurred_in, l.level, "
 			+ "l.environment, o.title, o.detail, lo.log_id, lo.occurrence_id, t.location, t.token  "
 			+ "from log_occurrence lo, log l, occurrence o, tracked_system t "
