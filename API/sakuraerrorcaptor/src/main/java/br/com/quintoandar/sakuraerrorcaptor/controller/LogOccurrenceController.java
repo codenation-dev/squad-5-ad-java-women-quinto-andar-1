@@ -7,7 +7,9 @@ import javax.validation.Valid;
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrenceDTO;
 import br.com.quintoandar.sakuraerrorcaptor.mapper.LogOccurrenceMapper;
+import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.ArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,8 @@ public class LogOccurrenceController {
 	
 	@Autowired
 	private LogOccurrenceService logOccurrenceService;
+	@Autowired
+	private ArchiveService archiveService;
 	private LogOccurrenceMapper mapper = new LogOccurrenceMapper();
 	
 	@GetMapping
@@ -77,5 +81,12 @@ public class LogOccurrenceController {
 	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
 	public ResponseEntity<List<LogOccurrenceDTO>> count(@PathVariable Long logId, @PathVariable Long occurrenceId){
 		return new ResponseEntity<>(logOccurrenceService.countLogOccurrence(logId, occurrenceId), HttpStatus.OK);
+	}
+
+	@ApiOperation("Send a logOccurrence to archive")
+	@ApiResponses(value = {@ApiResponse(code = 200, message="Archived"), @ApiResponse(code = 404, message="Unable to complete")})
+	@GetMapping("/{id}/archive")
+	public ResponseEntity<Boolean> archive(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
+		return new ResponseEntity<Boolean>(archiveService.sendLogOccurrenceToArchive(id), HttpStatus.OK);
 	}
 }
