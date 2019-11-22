@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
+import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrencePostDTO;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 import br.com.quintoandar.sakuraerrorcaptor.model.Occurrence;
@@ -23,4 +24,5 @@ public interface LogOccurrenceService {
 	public List<LogDetailsDTO> countLogOccurrenceByLogIdAndOccurrenceId(Long logId, Long occurrenceId);
 	public List<LogDetailsDTO> countLogOccurrence(Optional<String> environment, Optional<String> filterBy, Optional<String> filter, Optional<String> orderBy);
 	public List<LogDetailsDTO> countAllLogOccurrence();
+	public LogDetailsDTO saveByTrackedSystem(LogOccurrencePostDTO logOccurrenceDto);
 }
