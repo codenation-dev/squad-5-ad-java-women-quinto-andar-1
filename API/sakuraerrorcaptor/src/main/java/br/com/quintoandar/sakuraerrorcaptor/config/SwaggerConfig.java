@@ -31,7 +31,7 @@ public class SwaggerConfig {
 				.version("1.0.0")
 				.license("Apache license version 2.0")
 				.licenseUrl("https://www.apache.org/license-2.0")
-				.contact(new Contact("Squad 5", "http://www.sakuraerrorcaptor.com.br", "gabriellecv@gmail.com"))
+				.contact(new Contact("Squad 5", "https://sakuraerrorcaptor.herokuapp.com", ""))
 				.build();
 	}
 }

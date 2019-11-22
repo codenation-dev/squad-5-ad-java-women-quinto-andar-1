@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.quintoandar.sakuraerrorcaptor.dto.UserChangePassDTO;
 import br.com.quintoandar.sakuraerrorcaptor.dto.UserDTO;
 import br.com.quintoandar.sakuraerrorcaptor.error.SystemUserNotFound;
 import br.com.quintoandar.sakuraerrorcaptor.mapper.SignInMapper;
@@ -17,6 +19,9 @@ import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.SystemUserService
 public class SystemUserServiceImpl implements SystemUserService{
 	@Autowired
 	private SystemUserRepository repository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	SignInMapper mapper = new SignInMapper();
 
@@ -53,11 +58,6 @@ public class SystemUserServiceImpl implements SystemUserService{
 	}
 	
 	@Override
-	public UserDTO alter(SystemUser systemUser) {
-		return mapper.mapUserDto(repository.save(systemUser));
-	}
-
-	@Override
 	public List<UserDTO> findAll() {
 		return mapper.mapListUserDto(repository.findAll());
 	}
@@ -65,5 +65,21 @@ public class SystemUserServiceImpl implements SystemUserService{
 	@Override
 	public UserDTO findDTOById(Long id) {
 		return mapper.mapUserDto(repository.findById(id).orElseThrow(()->new SystemUserNotFound(id)));
+	}
+
+	@Override
+	public UserDTO alter(UserChangePassDTO userChangePassDTO) {
+		SystemUser u = repository.findById(userChangePassDTO.getId()).orElseThrow(()->new SystemUserNotFound(userChangePassDTO.getId()));
+		
+		System.out.println(passwordEncoder.encode(userChangePassDTO.getNewPassword()));
+		
+		if (u.getEmail().equals(userChangePassDTO.getEmail()) &&
+			passwordEncoder.matches(userChangePassDTO.getOldPassword(), u.getPassword())){
+			
+			u.setPassword(passwordEncoder.encode(userChangePassDTO.getNewPassword()));
+			return mapper.mapUserDto(repository.save(u));
+		}
+		
+		throw new SystemUserNotFound(userChangePassDTO.getId(), userChangePassDTO.getEmail());
 	}
 }

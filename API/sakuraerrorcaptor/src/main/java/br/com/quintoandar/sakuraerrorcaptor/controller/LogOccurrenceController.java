@@ -82,7 +82,7 @@ public class LogOccurrenceController {
 	@ApiOperation("Create a logOccurrence by a Tracked System")
 	@ApiResponses(value = {@ApiResponse(code = 201, message="logOccurrence created"), @ApiResponse(code = 409, message="logOccurrence already exist")})
 	public ResponseEntity<LogDetailsDTO> saveByTrackedSystem(@Valid @RequestBody LogOccurrencePostDTO logOccurrencePostDTO) {
-		return new ResponseEntity<>(logOccurrenceService.saveByTrackedSystem(logOccurrencePostDTO), HttpStatus.OK);
+		return new ResponseEntity<>(logOccurrenceService.saveByTrackedSystem(logOccurrencePostDTO), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{id}")
