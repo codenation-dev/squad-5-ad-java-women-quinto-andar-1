@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,5 +82,14 @@ public class SystemUserController {
 	public ResponseEntity<Boolean> alter(@Valid @RequestBody SystemUser systemUser) {
 		systemUserServices.alter(systemUser);
 		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	
+
+	@PostMapping("/{id}")
+			@ApiOperation("Change password")
+			@ApiResponses(value = {@ApiResponse(code = 200, message="User alterado"), @ApiResponse(code = 404, message="User doesn't exist")})
+			public ResponseEntity<Iterable<SystemUser>> alter(@PathVariable Long id, String password) {
+				systemUserServices.findById(id);
+				return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

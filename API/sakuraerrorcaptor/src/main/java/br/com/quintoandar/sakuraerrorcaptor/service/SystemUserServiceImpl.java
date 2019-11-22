@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.UserDTO;
@@ -19,11 +20,17 @@ public class SystemUserServiceImpl implements SystemUserService{
 	private SystemUserRepository repository;
 
 	SignInMapper mapper = new SignInMapper();
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public Optional<SystemUser> findById(Long id) {
         return repository.findById(id);
+        
+        
 	}
+	
 	
 	@Override
 	public List<UserDTO> findByTenantId(Long id) {
@@ -54,6 +61,10 @@ public class SystemUserServiceImpl implements SystemUserService{
 	
 	@Override
 	public UserDTO alter(SystemUser systemUser) {
+
+		if (systemUser.getPassword()==null) {
+			systemUser.setPassword(this.passwordEncoder.encode(systemUser.getPassword()));
+		}
 		return mapper.mapUserDto(repository.save(systemUser));
 	}
 
