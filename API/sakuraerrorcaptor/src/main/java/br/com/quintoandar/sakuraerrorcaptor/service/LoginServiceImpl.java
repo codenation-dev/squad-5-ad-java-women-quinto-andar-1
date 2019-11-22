@@ -1,6 +1,7 @@
 package br.com.quintoandar.sakuraerrorcaptor.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.SignInDTO;
@@ -15,15 +16,20 @@ import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LoginService;
 public class LoginServiceImpl implements LoginService {
 
 	@Autowired
-	SystemUserRepository systemUserRepository;
+	private SystemUserRepository systemUserRepository;
 	
 	@Autowired
-	TenantRepository tenantRepository;
-	SignInMapper mapper = new SignInMapper();
+	private TenantRepository tenantRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	private SignInMapper mapper = new SignInMapper();
 	
 	@Override
 	public SignInDTO save(SignInDTO signInDTO) {
 		if (isValidUser(signInDTO)) {
+			signInDTO.setPassword(passwordEncoder.encode(signInDTO.getPassword()));
 			SystemUser systemUser = mapper.toUser(signInDTO);
 			return mapper.map(systemUserRepository.save(systemUser));
 		} else {

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.quintoandar.sakuraerrorcaptor.dto.UserChangePassDTO;
 import br.com.quintoandar.sakuraerrorcaptor.dto.UserDTO;
-import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.SystemUserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -54,8 +54,8 @@ public class SystemUserController {
 	@PutMapping
 	@ApiOperation("Alter an user data")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="User modified"), @ApiResponse(code = 404, message="User doesn't exist")})
-	public ResponseEntity<Boolean> alter(@Valid @RequestBody SystemUser systemUser) {
-		systemUserServices.alter(systemUser);
+	public ResponseEntity<Boolean> alter(@Valid @RequestBody UserChangePassDTO userChangePassDTO) {
+		systemUserServices.alter(userChangePassDTO);
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 }

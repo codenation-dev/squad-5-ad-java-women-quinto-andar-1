@@ -10,7 +10,7 @@ import br.com.quintoandar.sakuraerrorcaptor.dto.UserDTO;
 import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 
 public class SignInMapper {
-
+	
 	public SignInDTO map(SystemUser systemUser){
 		SignInDTO signInDTO =  new SignInDTO(
 				systemUser.getId(),

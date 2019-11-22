@@ -1,5 +1,5 @@
 INSERT INTO public.tenant(name) VALUES ('Public');
-INSERT INTO public.system_user(active, admin, created_in, disabled_in, email, name, password, token, tenant_id) VALUES (true, true, null, null, 'teste@teste.com.br', 'Test user', 'aaa','', 1);
+INSERT INTO public.system_user(active, admin, created_in, disabled_in, email, name, password, token, tenant_id) VALUES (true, true, '2019-11-22 00:00:00', null, 'teste@teste.com.br', 'Test user', '$2a$10$SrWd91lAJnenluDMSo.VPOcOFG/ksfOxFOy7QkArsPvg.PcmLzZbS','dGVzdGVAdGVzdGUuY29tLmJyOnRlc3Rl', 1);
 INSERT INTO public.tracked_system(location, name, token, tenant_id) VALUES ('127.0.0.1', 'Test system', '', 1);
 INSERT INTO public.occurrence(detail, title) VALUES ('Full detail of our test title','Our test title');
 INSERT INTO public.occurrence(detail, title) VALUES ('second test','second detail');
