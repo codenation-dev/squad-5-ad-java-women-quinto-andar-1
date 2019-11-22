@@ -1,7 +1,6 @@
 package br.com.quintoandar.sakuraerrorcaptor.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Base64;
 
 import javax.persistence.*;
 
@@ -21,8 +20,30 @@ public class TrackedSystem {
     @ManyToOne
     public Tenant tenant;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     public String token;
+
+    public TrackedSystem() {
+    	
+    }
+    
+	public TrackedSystem(Long id, String name, String location, Tenant tenant, String token) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.location = location;
+		this.tenant = tenant;
+		this.token = Base64.getEncoder().encodeToString(new String (getName()+":"+getLocation()).getBytes());
+	}
+	
+	public TrackedSystem(Long id, String name, String location, Tenant tenant) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.location = location;
+		this.tenant = tenant;
+		this.token = Base64.getEncoder().encodeToString(new String (getName()+":"+getLocation()).getBytes());
+	}
 
 	public Long getId() {
 		return id;

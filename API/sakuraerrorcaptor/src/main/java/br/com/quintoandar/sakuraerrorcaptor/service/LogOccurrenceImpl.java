@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
+import br.com.quintoandar.sakuraerrorcaptor.error.LogOccurrenceNotFound;
 import br.com.quintoandar.sakuraerrorcaptor.mapper.LogOccurrenceMapper;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
@@ -94,8 +95,15 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	}
 
 	@Override
+	@Transactional
 	public void delete(Long id) {
-		logOccurrenceRepository.deleteById(id);
+		if (logOccurrenceRepository.findById(id).isPresent()) {
+			//logOccurrenceRepository.deleteById(id);
+			LogOccurrence lo = logOccurrenceRepository.findById(id).get();
+			logOccurrenceRepository.deleteByLogIdAndOccurrenceId(lo.getLog().getId(), lo.getOccurrence().getId());
+		} else {
+			throw new LogOccurrenceNotFound();
+		}		
 	}
 
 	@Override

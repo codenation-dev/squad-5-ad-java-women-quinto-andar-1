@@ -1,6 +1,5 @@
 package br.com.quintoandar.sakuraerrorcaptor.controller;
 
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -30,36 +29,13 @@ public class SystemUserController {
 	@Autowired
 	private SystemUserService systemUserServices;
 
-	@GetMapping("/{email}")
-	@ApiOperation("Search an user by email")
-	@ApiResponses(value = {@ApiResponse(code = 200, message="User exists"), @ApiResponse(code = 404, message="User doesn't exist")})
-	public ResponseEntity<SystemUser> findByEmail(@PathVariable String email){
-		return new ResponseEntity<SystemUser>(HttpStatus.OK);
-	}
-
-	/*
-	@PostMapping
-	@ApiOperation("Create an user")
-	@ApiResponses(value = {@ApiResponse(code = 200, message="User exists"), @ApiResponse(code = 404, message="User doesn't exist")})
-	public ResponseEntity<SystemUser> save(@Valid @RequestBody SystemUser systemUser){
-		return new ResponseEntity<SystemUser>(systemUserServices.save(systemUser), HttpStatus.CREATED);
-	}
-	*/
-
-	@GetMapping("/token/{token}")
-	@ApiOperation("Search an user by token")
-	@ApiResponses(value = {@ApiResponse(code = 200, message="User exists"), @ApiResponse(code = 404, message="User doesn't exist")})
-	public ResponseEntity<SystemUser> findByToken(@PathVariable String token){
-		return new ResponseEntity<SystemUser>(HttpStatus.OK);
-	}
-
 	@ApiOperation("Search all users")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="User exists"), @ApiResponse(code = 404, message="User not found")})
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll() {
 		return new ResponseEntity<List<UserDTO>>(systemUserServices.findAll(), HttpStatus.OK);
 	}
-	
+
 	@ApiOperation("Search an user by id")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="User exists"), @ApiResponse(code = 404, message="User not found")})
 	@GetMapping("/{id}")

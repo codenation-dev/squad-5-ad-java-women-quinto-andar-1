@@ -23,7 +23,6 @@ public class LogDetailsDTO {
 
     private String systemToken;
 
-    private UserDTO user;
 
     public LogDetailsDTO() {
     	
@@ -32,7 +31,7 @@ public class LogDetailsDTO {
     public LogDetailsDTO(Long idLog, Long idOccurrence, String level,
                          String environment, String origin, String titleLog,
                          String details, Long countEvent, LocalDateTime dateLogger,
-                         String systemToken, UserDTO user) {
+                         String systemToken) {
         this.idLog = idLog;
         this.idOccurrence = idOccurrence;
         this.level = level;
@@ -43,7 +42,6 @@ public class LogDetailsDTO {
         this.countEvent = countEvent;
         this.maxOccurredIn = dateLogger;
         this.systemToken = systemToken;
-        this.user = user;
     }
 
     public Long getIdLog() {
@@ -116,14 +114,6 @@ public class LogDetailsDTO {
 
     public void setSystemToken(String systemToken) {
         this.systemToken = systemToken;
-    }
-
-    public UserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UserDTO user) {
-        this.user = user;
     }
 
 	public LocalDateTime getMaxOccurredIn() {
