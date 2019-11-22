@@ -89,7 +89,7 @@ public class SystemUserController {
 			@ApiOperation("Change password")
 			@ApiResponses(value = {@ApiResponse(code = 200, message="User alterado"), @ApiResponse(code = 404, message="User doesn't exist")})
 			public ResponseEntity<Iterable<SystemUser>> alter(@PathVariable Long id, String password) {
-				systemUserServices.findById(id);
+				systemUserServices.alter(null);
 				return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
