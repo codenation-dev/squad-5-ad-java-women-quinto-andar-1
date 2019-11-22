@@ -85,7 +85,7 @@ public class LogOccurrenceController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@ApiOperation("Delete a logOccurrence")
+	@ApiOperation("Delete logOccurrences by Log id and Occurrence id")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="logOccurrences exists"), @ApiResponse(code = 404, message="logOccurrences doesn't exist")})
 	public ResponseEntity<Boolean> delete(@PathVariable Long id) {
         logOccurrenceService.delete(id);

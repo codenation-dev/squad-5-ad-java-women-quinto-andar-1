@@ -1,5 +1,7 @@
 package br.com.quintoandar.sakuraerrorcaptor.service;
 
+import br.com.quintoandar.sakuraerrorcaptor.dto.TrackedSystemDTO;
+import br.com.quintoandar.sakuraerrorcaptor.mapper.TrackedSystemMapper;
 import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 import br.com.quintoandar.sakuraerrorcaptor.repository.TrackedSystemRepository;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.TrackedSystemService;
@@ -45,8 +47,10 @@ public class TrackedSystemImpl implements TrackedSystemService {
     }
 
     @Override
-    public TrackedSystem save(TrackedSystem trackedSystem) {
-        return _trackedSystemRepository.save(trackedSystem);
+    public TrackedSystem save(TrackedSystemDTO trackedSystemDto) {
+    	TrackedSystemMapper mapper = new TrackedSystemMapper();
+    	TrackedSystem ts = mapper.map(trackedSystemDto);
+        return _trackedSystemRepository.save(ts);
     }
 
     @Override

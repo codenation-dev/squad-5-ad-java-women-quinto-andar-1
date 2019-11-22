@@ -1,5 +1,6 @@
 package br.com.quintoandar.sakuraerrorcaptor.controller;
 
+import br.com.quintoandar.sakuraerrorcaptor.dto.TrackedSystemDTO;
 import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.TrackedSystemService;
 import io.swagger.annotations.ApiOperation;
@@ -33,10 +34,6 @@ public class TrackedSystemController {
     @ApiOperation("Search a tracked system by id")
 	@ApiResponses(value = {@ApiResponse(code = 200, message="Tracked system exists"), @ApiResponse(code = 404, message="Tracked system doesn't exist")})
 	public ResponseEntity<ResponseEntity<TrackedSystem>> getById(@PathVariable Long id){
-
-        //return new ResponseEntity<TrackedSystem>(_trackedSystemService.findById(id)
-                //.orElseThrow(() -> new NotFoundException("Notfound TrackedSystem with id: " + id)), HttpStatus.OK);
-
         Optional<TrackedSystem> trackedSystem = trackedSystemService.findById(id);
         return new ResponseEntity<>(trackedSystem.isPresent() ? ResponseEntity.ok(trackedSystem.get()) : ResponseEntity.notFound().build(), HttpStatus.OK);
     }
@@ -66,7 +63,7 @@ public class TrackedSystemController {
     @PostMapping
     @ApiOperation("Create a tracked system")
 	@ApiResponses(value = {@ApiResponse(code = 201, message="Tracked system created"), @ApiResponse(code = 409, message="Tracked system already exist")})
-	public ResponseEntity<TrackedSystem> post(@Valid @RequestBody TrackedSystem trackedSystem){
+	public ResponseEntity<TrackedSystem> post(@Valid @RequestBody TrackedSystemDTO trackedSystem){
         return new ResponseEntity<TrackedSystem>(trackedSystemService.save(trackedSystem), HttpStatus.CREATED);
     }
 
@@ -92,5 +89,4 @@ public class TrackedSystemController {
         trackedSystemService.delete(trackedSystem);
         return new ResponseEntity<Boolean>(true,HttpStatus.OK);
     }
-
 }

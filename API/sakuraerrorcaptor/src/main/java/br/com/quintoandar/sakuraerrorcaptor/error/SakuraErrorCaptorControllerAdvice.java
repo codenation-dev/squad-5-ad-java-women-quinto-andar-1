@@ -57,5 +57,12 @@ class SakuraErrorCaptorControllerAdvice {
     public String handleSystemUserAlreadyExistsException(SystemUserAlreadyExists ex) {
         return ex.getMessage();
     }
+    
+    @ExceptionHandler(LogOccurrenceNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String handleLogOccurrenceNotFoundException(LogOccurrenceNotFound ex) {
+        return ex.getMessage();
+    }
 
 }
