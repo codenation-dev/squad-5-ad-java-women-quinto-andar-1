@@ -62,7 +62,8 @@ public class SystemUserServiceImpl implements SystemUserService{
 	@Override
 	public UserDTO alter(SystemUser systemUser) {
 
-		if (systemUser.getPassword()==null) {
+		  //Coloquei diferente de nulo, será que vai agora?
+		if (systemUser.getPassword()!=null) {
 			systemUser.setPassword(this.passwordEncoder.encode(systemUser.getPassword()));
 		}
 		return mapper.mapUserDto(repository.save(systemUser));
