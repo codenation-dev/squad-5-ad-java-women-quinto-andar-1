@@ -64,5 +64,19 @@ class SakuraErrorCaptorControllerAdvice {
     public String handleLogOccurrenceNotFoundException(LogOccurrenceNotFound ex) {
         return ex.getMessage();
     }
+    
+    @ExceptionHandler(TrackedSystemNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String handleTrackedSystemNotFoundException(TrackedSystemNotFound ex) {
+        return ex.getMessage();
+    }
+    
+    @ExceptionHandler(LevelNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String handleLevelNotFoundException(LevelNotFound ex) {
+        return ex.getMessage();
+    }
 
 }

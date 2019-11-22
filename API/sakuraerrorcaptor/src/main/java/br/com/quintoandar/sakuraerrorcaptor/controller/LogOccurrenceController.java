@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
+import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrencePostDTO;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.ArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -76,12 +77,12 @@ public class LogOccurrenceController {
 				orderBy)
 		, HttpStatus.OK);
 	}
-
+	
 	@PostMapping
-	@ApiOperation("Create a logOccurrence")
+	@ApiOperation("Create a logOccurrence by a Tracked System")
 	@ApiResponses(value = {@ApiResponse(code = 201, message="logOccurrence created"), @ApiResponse(code = 409, message="logOccurrence already exist")})
-	public ResponseEntity<LogOccurrence> save(@Valid @RequestBody LogOccurrence logOccurrence) {
-		return new ResponseEntity<>(logOccurrenceService.save(logOccurrence), HttpStatus.OK);
+	public ResponseEntity<LogDetailsDTO> saveByTrackedSystem(@Valid @RequestBody LogOccurrencePostDTO logOccurrencePostDTO) {
+		return new ResponseEntity<>(logOccurrenceService.saveByTrackedSystem(logOccurrencePostDTO), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")

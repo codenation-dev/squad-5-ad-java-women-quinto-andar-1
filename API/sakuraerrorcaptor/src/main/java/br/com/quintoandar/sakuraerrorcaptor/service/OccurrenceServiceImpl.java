@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 @Service
 public class OccurrenceServiceImpl implements OccurrenceService {
 
@@ -45,4 +47,23 @@ public class OccurrenceServiceImpl implements OccurrenceService {
         return repository.findById(occurrenceJson.getId()).get();
 	}
 
+	@Override
+	public Occurrence save(String title, String detail) {
+		Occurrence o = new Occurrence(null, title, detail);
+		return repository.save(o);
+	}
+
+	@Override
+	public Optional<Occurrence> findByTitleAndDetail(String title, String detail) {
+		return repository.findByTitleAndDetail(title, detail);
+	}
+
+	@Override
+	@Transactional
+	public Occurrence saveOccurrenceFromArchive(String title, String detail) {
+		if (!repository.findByTitleAndDetail(title,detail).isPresent()) {
+			save(title,detail);
+		}
+		return repository.findByTitleAndDetail(title,detail).get();
+	}
 }

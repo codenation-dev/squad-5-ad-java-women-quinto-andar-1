@@ -12,19 +12,33 @@ import org.springframework.stereotype.Service;
 import br.com.quintoandar.sakuraerrorcaptor.model.enums.Environment;
 import br.com.quintoandar.sakuraerrorcaptor.model.enums.Level;
 import br.com.quintoandar.sakuraerrorcaptor.dto.LogDetailsDTO;
+import br.com.quintoandar.sakuraerrorcaptor.dto.LogOccurrencePostDTO;
 import br.com.quintoandar.sakuraerrorcaptor.error.LogOccurrenceNotFound;
+import br.com.quintoandar.sakuraerrorcaptor.error.TrackedSystemNotFound;
 import br.com.quintoandar.sakuraerrorcaptor.mapper.LogOccurrenceMapper;
 import br.com.quintoandar.sakuraerrorcaptor.model.Log;
 import br.com.quintoandar.sakuraerrorcaptor.model.LogOccurrence;
 import br.com.quintoandar.sakuraerrorcaptor.model.Occurrence;
+import br.com.quintoandar.sakuraerrorcaptor.model.TrackedSystem;
 import br.com.quintoandar.sakuraerrorcaptor.repository.LogOccurrenceRepository;
+import br.com.quintoandar.sakuraerrorcaptor.repository.TrackedSystemRepository;
 import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogOccurrenceService;
+import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.LogService;
+import br.com.quintoandar.sakuraerrorcaptor.service.interfaces.OccurrenceService;
 
 @Service
 public class LogOccurrenceImpl implements LogOccurrenceService{
 
 	@Autowired
 	private LogOccurrenceRepository logOccurrenceRepository;
+	@Autowired
+	private TrackedSystemRepository trackedSystemRepository;
+	@Autowired
+	private OccurrenceService occurrenceService;
+	@Autowired
+	private LogService logService;
+	
+	
 	private LogOccurrenceMapper mapper = new LogOccurrenceMapper();
 
 	@Override
@@ -144,5 +158,29 @@ public class LogOccurrenceImpl implements LogOccurrenceService{
 	@Transactional
 	public void deleteByLogIdAndOccurrenceId(Long logId, Long occurrenceId) {
 		logOccurrenceRepository.deleteByLogIdAndOccurrenceId(logId, occurrenceId);
+	}
+
+	@Override
+	public LogDetailsDTO saveByTrackedSystem(LogOccurrencePostDTO logOccurrenceDto) {
+		Environment.isFound(logOccurrenceDto.getEnvironment());
+		Level.isFound(logOccurrenceDto.getLevel());
+		
+		TrackedSystem t = trackedSystemRepository.findByToken(logOccurrenceDto.getTrackedSystemToken())
+				.orElseThrow(()-> new TrackedSystemNotFound(logOccurrenceDto.getTrackedSystemToken()));
+		
+		Occurrence o = occurrenceService.saveOccurrenceFromArchive(logOccurrenceDto.getLogTtle(), logOccurrenceDto.getLogDetail());
+		
+		Log log = logService.saveLogFromArchive(
+				Environment.valueOf(logOccurrenceDto.getEnvironment()), 
+				Level.valueOf(logOccurrenceDto.getLevel()), 
+				t
+				);
+		
+		LogOccurrence lo = new LogOccurrence();
+		lo.setLog(log);
+		lo.setOccurrence(o);
+		lo.setOccurredIn(LocalDateTime.now());
+
+		return mapper.map(logOccurrenceRepository.save(lo));
 	}
 }
