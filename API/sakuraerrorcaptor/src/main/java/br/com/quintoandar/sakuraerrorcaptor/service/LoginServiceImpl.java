@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.quintoandar.sakuraerrorcaptor.dto.SignInDTO;
 import br.com.quintoandar.sakuraerrorcaptor.error.SystemUserAlreadyExists;
+import br.com.quintoandar.sakuraerrorcaptor.error.TenantNotFound;
 import br.com.quintoandar.sakuraerrorcaptor.mapper.SignInMapper;
 import br.com.quintoandar.sakuraerrorcaptor.model.SystemUser;
 import br.com.quintoandar.sakuraerrorcaptor.repository.SystemUserRepository;
@@ -38,8 +39,17 @@ public class LoginServiceImpl implements LoginService {
 	}
 	
 	private boolean isValidUser(SignInDTO signInDTO) {
+		if (tenantRepository.findById(1L).isPresent())
+		
 		if (signInDTO.getTenant() == null) {
+			if (!tenantRepository.findById(1L).isPresent()) {
+				throw new TenantNotFound();
+			}
 			signInDTO.setTenant(tenantRepository.findById(1L).get());
+		} else {
+			if (!tenantRepository.findById(signInDTO.getTenant().getId()).isPresent()) {
+				throw new TenantNotFound();
+			}
 		}
 		if (systemUserRepository.findByEmail(signInDTO.getEmail()).isPresent()) {
 			return false;
